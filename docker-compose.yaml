@@ -1,0 +1,14 @@
+services:
+  postgres:
+    container_name: hopin_db
+    hostname: hopin_db
+    image: postgres
+    restart: always
+    volumes:
+      - ./local/path:/container/path
+    environment:
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: hopin_db
+    ports:
+      - 5432:5432
