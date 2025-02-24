@@ -1,8 +1,8 @@
 package br.edu.ifpb.hopin_daw2.core.domain.trips;
 
-import github.lucasramallo.hopin.core.domain.customer.Customer;
-import github.lucasramallo.hopin.core.domain.driver.Driver;
-import github.lucasramallo.hopin.core.domain.payments.Payment;
+import br.edu.ifpb.hopin_daw2.core.domain.customer.Customer;
+import br.edu.ifpb.hopin_daw2.core.domain.driver.Driver;
+import br.edu.ifpb.hopin_daw2.core.domain.payments.Payment;
 import jakarta.persistence.*;
 import lombok.Data;
 

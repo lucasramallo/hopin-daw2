@@ -1,10 +1,8 @@
 package br.edu.ifpb.hopin_daw2.core.domain.customer.util;
 
-import github.lucasramallo.hopin.core.domain.customer.Customer;
-import github.lucasramallo.hopin.core.domain.customer.exceptions.EmailAlreadyRegisteredException;
-import github.lucasramallo.hopin.core.globalExceptions.InvalidEmailException;
-import github.lucasramallo.hopin.core.globalExceptions.InvalidUserNameException;
-import github.lucasramallo.hopin.data.jpa.CustomerRepository;
+import br.edu.ifpb.hopin_daw2.core.domain.customer.Customer;
+import br.edu.ifpb.hopin_daw2.core.domain.customer.exceptions.EmailAlreadyRegisteredException;
+import br.edu.ifpb.hopin_daw2.data.jpa.CustomerRepository;
 
 import java.util.Objects;
 import java.util.Optional;
@@ -37,7 +35,7 @@ public class CustomerValidations {
         Matcher matcher = pattern.matcher(name);
 
         if (!matcher.matches()) {
-            throw new InvalidUserNameException("Invalid name!");
+            throw new RuntimeException("Invalid name!");
         }
     }
 
@@ -46,7 +44,7 @@ public class CustomerValidations {
         Matcher matcher = pattern.matcher(name);
 
         if (!matcher.matches()) {
-            throw new InvalidEmailException("Invalid email!");
+            throw new RuntimeException("Invalid email!");
         }
     }
 }

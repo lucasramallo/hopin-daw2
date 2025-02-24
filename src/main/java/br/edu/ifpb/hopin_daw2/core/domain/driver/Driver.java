@@ -1,6 +1,6 @@
 package br.edu.ifpb.hopin_daw2.core.domain.driver;
 
-import github.lucasramallo.hopin.core.domain.cab.Cab;
+import br.edu.ifpb.hopin_daw2.core.domain.cab.Cab;
 import jakarta.persistence.*;
 import lombok.Data;
 
