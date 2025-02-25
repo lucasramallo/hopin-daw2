@@ -1,12 +1,15 @@
 package br.edu.ifpb.hopin_daw2.api.controllers;
 
 import br.edu.ifpb.hopin_daw2.api.dto.CreateDriverRequestDTO;
+import br.edu.ifpb.hopin_daw2.api.dto.DriverResponseDTO;
+import br.edu.ifpb.hopin_daw2.api.dto.EditDriverRequestDTO;
 import br.edu.ifpb.hopin_daw2.core.service.DriverService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/driver")
@@ -15,7 +18,23 @@ public class DriverController {
     private DriverService service;
 
     @PostMapping()
-    public void createDriver(@RequestBody CreateDriverRequestDTO request) {
-        service.createDriver(request);
+    public ResponseEntity<DriverResponseDTO> createDriver(@RequestBody CreateDriverRequestDTO request) {
+        DriverResponseDTO reponse = service.createDriver(request);
+
+        return ResponseEntity.status(HttpStatus.CREATED).body(reponse);
+    }
+
+    @GetMapping("/{driverId}")
+    public ResponseEntity<DriverResponseDTO> getDriverById(@PathVariable UUID driverId) {
+        DriverResponseDTO reponse = service.getDriverById(driverId);
+
+        return ResponseEntity.status(HttpStatus.OK).body(reponse);
+    }
+
+    @PutMapping("/{driverId}")
+    public ResponseEntity<DriverResponseDTO> editDriver(@PathVariable UUID driverId, @RequestBody EditDriverRequestDTO request) {
+        DriverResponseDTO reponse = service.editDriver(driverId, request);
+
+        return ResponseEntity.status(HttpStatus.OK).body(reponse);
     }
 }
