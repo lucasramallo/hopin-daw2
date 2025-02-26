@@ -17,13 +17,6 @@ public class DriverController {
     @Autowired
     private DriverService service;
 
-    @PostMapping()
-    public ResponseEntity<DriverResponseDTO> createDriver(@RequestBody CreateDriverRequestDTO request) {
-        DriverResponseDTO reponse = service.createDriver(request);
-
-        return ResponseEntity.status(HttpStatus.CREATED).body(reponse);
-    }
-
     @GetMapping("/{driverId}")
     public ResponseEntity<DriverResponseDTO> getDriverById(@PathVariable UUID driverId) {
         DriverResponseDTO reponse = service.getDriverById(driverId);
