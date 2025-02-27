@@ -9,6 +9,7 @@ import java.util.UUID;
 public record DriverResponseDTO(
         UUID id,
         String name,
+        String email,
         LocalDate dateOfBirth,
         Cab cab,
         LocalDateTime createdAt

@@ -4,6 +4,7 @@ import java.time.LocalDate;
 
 public record EditDriverRequestDTO(
         String name,
+        String email,
         LocalDate dateOfBirth
 ) {
 }

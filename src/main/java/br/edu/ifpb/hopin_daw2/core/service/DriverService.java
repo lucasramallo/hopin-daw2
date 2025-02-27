@@ -24,7 +24,9 @@ public class DriverService {
     private CabService cabService;
 
     public DriverResponseDTO createDriver(CreateDriverRequestDTO requestDTO) {
-        DriverValidations.execute(requestDTO);
+        DriverValidations.validateName(requestDTO.name());
+        DriverValidations.validateEmail(requestDTO.email());
+        DriverValidations.validateAge(requestDTO.dateOfBirth());
 
         Driver driver = new Driver();
         driver.setId(UUID.randomUUID());
@@ -32,6 +34,7 @@ public class DriverService {
         driver.setPassword(requestDTO.password());
         driver.setDateOfBirth(requestDTO.dateOfBirth());
         driver.setCreatedAt(LocalDateTime.now());
+        driver.setEmail(requestDTO.email());
 
         Cab cab = cabService.createCab(requestDTO);
 
@@ -42,6 +45,7 @@ public class DriverService {
         return new DriverResponseDTO(
                 driver.getId(),
                 driver.getName(),
+                driver.getEmail(),
                 driver.getDateOfBirth(),
                 driver.getCab(),
                 driver.getCreatedAt()
@@ -58,6 +62,7 @@ public class DriverService {
         return new DriverResponseDTO(
                 driverFound.get().getId(),
                 driverFound.get().getName(),
+                driverFound.get().getEmail(),
                 driverFound.get().getDateOfBirth(),
                 driverFound.get().getCab(),
                 driverFound.get().getCreatedAt()
@@ -67,6 +72,7 @@ public class DriverService {
     public DriverResponseDTO editDriver(UUID id, EditDriverRequestDTO requestDTO) {
         DriverValidations.validateName(requestDTO.name());
         DriverValidations.validateAge(requestDTO.dateOfBirth());
+        DriverValidations.validateEmail(requestDTO.email());
 
         Optional<Driver> driverFound = repository.findById(id);
 
@@ -82,6 +88,7 @@ public class DriverService {
         return new DriverResponseDTO(
                 driverFound.get().getId(),
                 driverFound.get().getName(),
+                driverFound.get().getEmail(),
                 driverFound.get().getDateOfBirth(),
                 driverFound.get().getCab(),
                 driverFound.get().getCreatedAt()
