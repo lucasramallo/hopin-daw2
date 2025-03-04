@@ -39,7 +39,7 @@ public class CustomerValidations {
         }
     }
 
-    public static void validateEmial(String name) {
+    public static void validateEmail(String name) {
         Pattern pattern = Pattern.compile("^(?=.{1,64}@)[A-Za-z0-9_-]+(\\.[A-Za-z0-9_-]+)*@" + "[^-][A-Za-z0-9-]+(\\.[A-Za-z0-9-]+)*(\\.[A-Za-z]{2,})$");
         Matcher matcher = pattern.matcher(name);
 
