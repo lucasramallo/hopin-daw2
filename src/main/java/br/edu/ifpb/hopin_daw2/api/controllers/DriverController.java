@@ -1,14 +1,14 @@
 package br.edu.ifpb.hopin_daw2.api.controllers;
 
-import br.edu.ifpb.hopin_daw2.api.dto.CreateDriverRequestDTO;
-import br.edu.ifpb.hopin_daw2.api.dto.DriverResponseDTO;
-import br.edu.ifpb.hopin_daw2.api.dto.EditDriverRequestDTO;
+import br.edu.ifpb.hopin_daw2.api.dto.*;
 import br.edu.ifpb.hopin_daw2.core.service.DriverService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.UUID;
 
 @RestController
@@ -22,6 +22,22 @@ public class DriverController {
         DriverResponseDTO reponse = service.getDriverById(driverId);
 
         return ResponseEntity.status(HttpStatus.OK).body(reponse);
+    }
+
+    @GetMapping("/{customerId}/getTripsHistory")
+    public ResponseEntity<List<TripResponseDTO>> getTripsHistory(
+            @PathVariable UUID customerId,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size
+    ) {
+        List<TripResponseDTO> trips = service.getTripsHistory(customerId, page, size);
+
+        return ResponseEntity.status(HttpStatus.OK).body(trips);
+    }
+
+    @GetMapping("/cab/{driverId}")
+    public void getDriverCab(@PathVariable UUID driverId) {
+
     }
 
     @PutMapping("/{driverId}")

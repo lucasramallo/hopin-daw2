@@ -1,6 +1,5 @@
 package br.edu.ifpb.hopin_daw2.api.config;
 
-
 import br.edu.ifpb.hopin_daw2.core.domain.customer.exceptions.EmailAlreadyRegisteredException;
 import br.edu.ifpb.hopin_daw2.core.domain.cab.exceptions.InvalidPlateException;
 import br.edu.ifpb.hopin_daw2.core.domain.customer.exceptions.CustomerNotFoundException;
