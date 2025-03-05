@@ -13,7 +13,7 @@ public class TripMapper {
                 trip.getDriver(),
                 trip.getPayment(),
                 trip.getStatus(),
-                trip.getSource(),
+                trip.getOrigin(),
                 trip.getDestination(),
                 trip.getCreatedAt()
         );
@@ -27,7 +27,7 @@ public class TripMapper {
         trip.setDriver(dto.driver());
         trip.setPayment(dto.payment());
         trip.setStatus(dto.status());
-        trip.setSource(trip.getSource());
+        trip.setOrigin(trip.getOrigin());
         trip.setDestination(trip.getDestination());
         trip.setCreatedAt(trip.getCreatedAt());
 
