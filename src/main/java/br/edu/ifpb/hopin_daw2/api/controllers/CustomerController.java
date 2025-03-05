@@ -2,7 +2,6 @@ package br.edu.ifpb.hopin_daw2.api.controllers;
 
 import br.edu.ifpb.hopin_daw2.api.dto.CustomerRequestDTO;
 import br.edu.ifpb.hopin_daw2.api.dto.CustomerResponseDTO;
-import br.edu.ifpb.hopin_daw2.api.dto.SearchDTO;
 import br.edu.ifpb.hopin_daw2.api.dto.TripResponseDTO;
 import br.edu.ifpb.hopin_daw2.core.service.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,8 +33,8 @@ public class CustomerController {
     }
 
     @GetMapping("/{customerId}/getTripsHistory")
-    public ResponseEntity<Page<TripResponseDTO>> getTripsHistory(@PathVariable UUID customerId, SearchDTO search) {
-        Page<TripResponseDTO> trips = service.getTripsHistory(customerId, search);
+    public ResponseEntity<Page<TripResponseDTO>> getTripsHistory(@PathVariable UUID customerId, @RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "5") int size) {
+        Page<TripResponseDTO> trips = service.getTripsHistory(customerId, page, size);
 
         return ResponseEntity.status(HttpStatus.OK).body(trips);
     }
