@@ -2,7 +2,6 @@ package br.edu.ifpb.hopin_daw2.core.service;
 
 import br.edu.ifpb.hopin_daw2.api.dto.CustomerRequestDTO;
 import br.edu.ifpb.hopin_daw2.api.dto.CustomerResponseDTO;
-import br.edu.ifpb.hopin_daw2.api.dto.SearchDTO;
 import br.edu.ifpb.hopin_daw2.api.dto.TripResponseDTO;
 import br.edu.ifpb.hopin_daw2.core.domain.customer.Customer;
 import br.edu.ifpb.hopin_daw2.core.domain.customer.exceptions.CustomerNotFoundException;
@@ -65,8 +64,8 @@ public class CustomerService {
         return customerMapper.toDTO(customer.get());
     }
 
-    public Page<TripResponseDTO> getTripsHistory(UUID customerId, SearchDTO dto) {
-        Page<Trip> trips = repository.getTripsHistory(customerId, PageRequest.of(dto.pageNumber, dto.pageSize));
+    public Page<TripResponseDTO> getTripsHistory(UUID customerId, Integer page, Integer size) {
+        Page<Trip> trips = repository.getTripsHistory(customerId, PageRequest.of(page, size));
 
         return trips.map(TripMapper::toDTO);
     }

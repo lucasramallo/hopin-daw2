@@ -7,6 +7,7 @@ import br.edu.ifpb.hopin_daw2.core.domain.customer.exceptions.CustomerNotFoundEx
 import br.edu.ifpb.hopin_daw2.core.domain.driver.exceptions.DriverNotFoundException;
 import br.edu.ifpb.hopin_daw2.core.domain.driver.exceptions.UnderageDriverException;
 import br.edu.ifpb.hopin_daw2.api.globalExceptions.*;
+import br.edu.ifpb.hopin_daw2.core.domain.trips.exceprions.TripNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -74,6 +75,13 @@ public class ExceptionsHandler {
 
     @ExceptionHandler(CabNotFoundException.class)
     public ResponseEntity<String> handleCabNotFound(CabNotFoundException e) {
+        return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
+    }
+
+    // Trip
+
+    @ExceptionHandler(TripNotFoundException.class)
+    public ResponseEntity<String> handleTripNotFound(TripNotFoundException e) {
         return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
     }
 }

@@ -25,7 +25,7 @@ public class Trip {
     @JoinColumn(name = "driver_id", nullable = false)
     private Driver driver;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "payment_id", nullable = false)
     private Payment payment;
 
@@ -34,7 +34,7 @@ public class Trip {
     private Status status;
 
     @Column(nullable = false)
-    private String source;
+    private String origin;
 
     @Column(nullable = false)
     private String destination;
