@@ -1,12 +1,12 @@
 package br.edu.ifpb.hopin_daw2.api.config;
 
-
 import br.edu.ifpb.hopin_daw2.core.domain.customer.exceptions.EmailAlreadyRegisteredException;
 import br.edu.ifpb.hopin_daw2.core.domain.cab.exceptions.InvalidPlateException;
 import br.edu.ifpb.hopin_daw2.core.domain.customer.exceptions.CustomerNotFoundException;
 import br.edu.ifpb.hopin_daw2.core.domain.driver.exceptions.DriverNotFoundException;
 import br.edu.ifpb.hopin_daw2.core.domain.driver.exceptions.UnderageDriverException;
 import br.edu.ifpb.hopin_daw2.api.globalExceptions.*;
+import br.edu.ifpb.hopin_daw2.core.domain.trips.exceprions.TripNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -70,5 +70,12 @@ public class ExceptionsHandler {
     @ExceptionHandler(InvalidPlateException.class)
     public ResponseEntity<String> handleInvalidPlate(InvalidPlateException e) {
         return new ResponseEntity<>(e.getMessage(), HttpStatus.UNPROCESSABLE_ENTITY);
+    }
+
+    // Trip
+
+    @ExceptionHandler(TripNotFoundException.class)
+    public ResponseEntity<String> handleTripNotFound(TripNotFoundException e) {
+        return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
     }
 }

@@ -32,9 +32,6 @@ public class TripService {
 
     private DriverRepository driverRepository;
 
-    @Autowired
-    private TripMapper tripMapper;
-
     public TripResponseDTO createTrip(TripRequestDTO dto) {
         Optional<Customer> customer = customerRepository.findById(dto.customerId());
         Optional<Driver> driver = driverRepository.findById(dto.driverId());
@@ -65,7 +62,7 @@ public class TripService {
 
         tripRepository.save(trip);
 
-        return tripMapper.toDTO(trip);
+        return TripMapper.toDTO(trip);
     }
 
     public TripResponseDTO getTripById(UUID tripId) {
@@ -75,7 +72,7 @@ public class TripService {
             throw new TripNotFoundException();
         }
 
-        return tripMapper.toDTO(trip.get());
+        return TripMapper.toDTO(trip.get());
     }
 
     public TripResponseDTO editTrip(UUID tripId, TripRequestDTO dto) {
@@ -111,7 +108,7 @@ public class TripService {
 
         tripRepository.save(trip.get());
 
-        return tripMapper.toDTO(trip.get());
+        return TripMapper.toDTO(trip.get());
     }
 
     public TripResponseDTO editTripStatus(UUID tripId, Status status) {
@@ -125,7 +122,7 @@ public class TripService {
 
         tripRepository.save(trip.get());
 
-        return tripMapper.toDTO(trip.get());
+        return TripMapper.toDTO(trip.get());
     }
 
     public void deleteTrip(UUID tripId) {

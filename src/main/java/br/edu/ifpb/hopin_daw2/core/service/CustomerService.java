@@ -25,9 +25,6 @@ public class CustomerService {
     private CustomerRepository repository;
 
     @Autowired
-    private TripMapper tripMapper;
-
-    @Autowired
     private CustomerMapper customerMapper;
 
     public CustomerResponseDTO createCustomer(CustomerRequestDTO dto) {
@@ -70,7 +67,7 @@ public class CustomerService {
     public Page<TripResponseDTO> getTripsHistory(UUID customerId, Integer page, Integer size) {
         Page<Trip> trips = repository.getTripsHistory(customerId, PageRequest.of(page, size));
 
-        return trips.map(trip -> tripMapper.toDTO(trip));
+        return trips.map(TripMapper::toDTO);
     }
 
     public CustomerResponseDTO editCustomer(UUID id, CustomerRequestDTO dto) {
