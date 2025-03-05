@@ -118,14 +118,18 @@ public class DriverService {
         );
     }
 
-    public Cab getDriverCab(UUID driverId) {
+    public CabResponseDTO getDriverCab(UUID driverId) {
         Optional<Cab> cab = repository.findCabByDriverId(driverId);
 
         if(cab.isEmpty()) {
             throw new CabNotFoundException();
         }
 
-        return cab.get();
+        return new CabResponseDTO(
+                cab.get().getId(),
+                cab.get().getModel(),
+                cab.get().getColor(),
+                cab.get().getPlateNum()
+        );
     }
-
 }

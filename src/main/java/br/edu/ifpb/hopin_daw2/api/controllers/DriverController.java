@@ -37,8 +37,8 @@ public class DriverController {
     }
 
     @GetMapping("/cab/{driverId}")
-    public ResponseEntity<Cab> getDriverCab(@PathVariable UUID driverId) {
-        Cab cab = service.getDriverCab(driverId);
+    public ResponseEntity<CabResponseDTO> getDriverCab(@PathVariable UUID driverId) {
+        CabResponseDTO cab = service.getDriverCab(driverId);
 
         return ResponseEntity.status(HttpStatus.OK).body(cab);
     }
