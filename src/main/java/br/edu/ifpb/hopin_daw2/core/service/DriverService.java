@@ -2,6 +2,7 @@ package br.edu.ifpb.hopin_daw2.core.service;
 
 import br.edu.ifpb.hopin_daw2.api.dto.*;
 import br.edu.ifpb.hopin_daw2.core.domain.cab.Cab;
+import br.edu.ifpb.hopin_daw2.core.domain.cab.exceptions.CabNotFoundException;
 import br.edu.ifpb.hopin_daw2.core.domain.driver.Driver;
 import br.edu.ifpb.hopin_daw2.core.domain.driver.exceptions.DriverNotFoundException;
 import br.edu.ifpb.hopin_daw2.core.domain.driver.util.DriverValidations;
@@ -116,4 +117,15 @@ public class DriverService {
                 driverFound.get().getCreatedAt()
         );
     }
+
+    public Cab getDriverCab(UUID driverId) {
+        Optional<Cab> cab = repository.findCabByDriverId(driverId);
+
+        if(cab.isEmpty()) {
+            throw new CabNotFoundException();
+        }
+
+        return cab.get();
+    }
+
 }

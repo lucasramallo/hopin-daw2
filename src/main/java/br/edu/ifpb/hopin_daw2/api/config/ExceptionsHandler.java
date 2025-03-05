@@ -1,5 +1,6 @@
 package br.edu.ifpb.hopin_daw2.api.config;
 
+import br.edu.ifpb.hopin_daw2.core.domain.cab.exceptions.CabNotFoundException;
 import br.edu.ifpb.hopin_daw2.core.domain.customer.exceptions.EmailAlreadyRegisteredException;
 import br.edu.ifpb.hopin_daw2.core.domain.cab.exceptions.InvalidPlateException;
 import br.edu.ifpb.hopin_daw2.core.domain.customer.exceptions.CustomerNotFoundException;
@@ -69,5 +70,10 @@ public class ExceptionsHandler {
     @ExceptionHandler(InvalidPlateException.class)
     public ResponseEntity<String> handleInvalidPlate(InvalidPlateException e) {
         return new ResponseEntity<>(e.getMessage(), HttpStatus.UNPROCESSABLE_ENTITY);
+    }
+
+    @ExceptionHandler(CabNotFoundException.class)
+    public ResponseEntity<String> handleCabNotFound(CabNotFoundException e) {
+        return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
     }
 }

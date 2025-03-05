@@ -1,9 +1,10 @@
 package br.edu.ifpb.hopin_daw2.api.controllers;
 
 import br.edu.ifpb.hopin_daw2.api.dto.*;
+import br.edu.ifpb.hopin_daw2.core.domain.cab.Cab;
+import br.edu.ifpb.hopin_daw2.core.service.CabService;
 import br.edu.ifpb.hopin_daw2.core.service.DriverService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -36,8 +37,10 @@ public class DriverController {
     }
 
     @GetMapping("/cab/{driverId}")
-    public void getDriverCab(@PathVariable UUID driverId) {
+    public ResponseEntity<Cab> getDriverCab(@PathVariable UUID driverId) {
+        Cab cab = service.getDriverCab(driverId);
 
+        return ResponseEntity.status(HttpStatus.OK).body(cab);
     }
 
     @PutMapping("/{driverId}")
