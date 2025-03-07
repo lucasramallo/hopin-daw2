@@ -132,4 +132,15 @@ public class DriverService {
                 cab.get().getPlateNum()
         );
     }
+
+    public boolean deleteDriver(UUID id) {
+        Optional<Driver> driverFound = repository.findById(id);
+
+        if(driverFound.isEmpty()) {
+            throw new DriverNotFoundException();
+        }
+
+        repository.delete(driverFound.get());
+        return true;
+    }
 }

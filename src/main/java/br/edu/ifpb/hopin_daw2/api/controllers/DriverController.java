@@ -1,8 +1,6 @@
 package br.edu.ifpb.hopin_daw2.api.controllers;
 
 import br.edu.ifpb.hopin_daw2.api.dto.*;
-import br.edu.ifpb.hopin_daw2.core.domain.cab.Cab;
-import br.edu.ifpb.hopin_daw2.core.service.CabService;
 import br.edu.ifpb.hopin_daw2.core.service.DriverService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -48,5 +46,12 @@ public class DriverController {
         DriverResponseDTO reponse = service.editDriver(driverId, request);
 
         return ResponseEntity.status(HttpStatus.OK).body(reponse);
+    }
+
+    @DeleteMapping("/{driverId}")
+    public ResponseEntity deleteDriver(@PathVariable UUID driverId) {
+        service.deleteDriver(driverId);
+
+        return ResponseEntity.status(HttpStatus.OK).build();
     }
 }
