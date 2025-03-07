@@ -4,6 +4,7 @@ import br.edu.ifpb.hopin_daw2.core.domain.customer.Customer;
 import br.edu.ifpb.hopin_daw2.core.domain.driver.Driver;
 import br.edu.ifpb.hopin_daw2.core.domain.trips.Trip;
 import jakarta.persistence.*;
+
 import lombok.Data;
 
 import java.util.UUID;
@@ -27,4 +28,10 @@ public class Rating {
     @OneToOne
     @JoinColumn(name = "trip_id", nullable = false)
     private Trip trip;
+
+    @Column(nullable = false)
+    private int rating;
+
+    @Column(length = 255)
+    private String feedback;
 }
