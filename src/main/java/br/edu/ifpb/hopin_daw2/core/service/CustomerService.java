@@ -6,6 +6,7 @@ import br.edu.ifpb.hopin_daw2.api.dto.TripResponseDTO;
 import br.edu.ifpb.hopin_daw2.core.domain.customer.Customer;
 import br.edu.ifpb.hopin_daw2.core.domain.customer.exceptions.CustomerNotFoundException;
 import br.edu.ifpb.hopin_daw2.core.domain.customer.util.CustomerValidations;
+import br.edu.ifpb.hopin_daw2.core.domain.role.Role;
 import br.edu.ifpb.hopin_daw2.core.domain.trips.Trip;
 import br.edu.ifpb.hopin_daw2.data.jpa.CustomerRepository;
 import br.edu.ifpb.hopin_daw2.mappers.CustomerMapper;
@@ -15,7 +16,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -33,11 +33,13 @@ public class CustomerService {
         CustomerValidations.validateName(dto.name());
 
         Customer customer = new Customer();
-        customer.setId(UUID.randomUUID());
         customer.setName(dto.name());
         customer.setEmail(dto.email());
         customer.setPassword(dto.password());
-        customer.setCreatedAt(LocalDateTime.now());
+        customer.setRole(Role.CUSTOMER);
+        customer.setCreditCardNumber(dto.creditCardNumber());
+        customer.setCreditCardCVV(dto.creditCardCVV());
+        customer.setCreditCardExpiry(dto.creditCardExpiry());
 
         repository.save(customer);
 
