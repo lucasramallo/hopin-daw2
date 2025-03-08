@@ -13,7 +13,6 @@ import java.util.UUID;
 
 @Repository
 public interface CustomerRepository extends JpaRepository<Customer, UUID> {
-    @Query("SELECT c FROM customers c WHERE c.email = :email")
     Optional<Customer> findByEmail(String email);
 
     @Query("SELECT t FROM trips t WHERE t.customer.Id = :customerId")

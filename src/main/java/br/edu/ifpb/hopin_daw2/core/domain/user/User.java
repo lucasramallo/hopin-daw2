@@ -40,7 +40,6 @@ public abstract class User implements UserDetails {
 
     @PrePersist
     private void init() {
-        this.id= UUID.randomUUID();
         this.createdAt = LocalDateTime.now();
     }
 
@@ -57,8 +56,5 @@ public abstract class User implements UserDetails {
     @Override
     public String getUsername() {
         return this.email;
-    }
-
-    public void setRole(br.edu.ifpb.hopin_daw2.core.domain.role.Role role) {
     }
 }
