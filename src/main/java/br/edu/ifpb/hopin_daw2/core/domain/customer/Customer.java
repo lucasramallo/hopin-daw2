@@ -1,35 +1,27 @@
 package br.edu.ifpb.hopin_daw2.core.domain.customer;
 
+import br.edu.ifpb.hopin_daw2.core.domain.user.User;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDateTime;
-import java.util.UUID;
-
-@AllArgsConstructor
-@NoArgsConstructor
-@Entity(name = "customers")
-@Table(name = "customers")
 @Data
-public class Customer {
-    @Id
-    @Column
-    private UUID Id;
+@NoArgsConstructor
+@AllArgsConstructor
+@EqualsAndHashCode(callSuper = true)
+@Entity
+@Table(name = "customers")
+public class Customer extends User {
+    @Column(name = "credit_card_number")
+    private String creditCardNumber;
 
-    @Column(nullable = false)
-    private String name;
+    @Column(name = "credit_card_expiry")
+    private String creditCardExpiry;
 
-    @Column(nullable = false)
-    private String email;
-
-    @Column(nullable = false)
-    private String password;
-
-    @Column(name = "created_at", nullable = false)
-    private LocalDateTime createdAt;
+    @Column(name = "credit_card_cvv")
+    private String creditCardCVV;
 }

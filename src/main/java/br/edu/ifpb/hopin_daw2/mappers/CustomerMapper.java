@@ -11,7 +11,6 @@ public class CustomerMapper {
                 customer.getId(),
                 customer.getName(),
                 customer.getEmail(),
-                customer.getPassword(),
                 customer.getCreatedAt()
         );
     }
@@ -21,7 +20,6 @@ public class CustomerMapper {
         customer.setId(dto.id());
         customer.setName(dto.name());
         customer.setEmail(dto.email());
-        customer.setPassword(dto.password());
         customer.setCreatedAt(dto.createdAt());
 
         return customer;

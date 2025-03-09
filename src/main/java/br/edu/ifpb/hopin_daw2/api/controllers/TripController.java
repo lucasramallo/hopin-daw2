@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.UUID;
@@ -20,6 +21,7 @@ public class TripController {
     private TripService service;
 
     @PostMapping("/create")
+    @PreAuthorize("hasAnyRole('CUSTOMER')")
     public ResponseEntity<TripResponseDTO> createTrip(@RequestBody TripRequestDTO dto) {
         TripResponseDTO response = service.createTrip(dto);
 
@@ -33,6 +35,7 @@ public class TripController {
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
+    //FAZ SENTIDO TER?
     @PutMapping("/{tripId}")
     public ResponseEntity<TripResponseDTO> editTrip(@PathVariable UUID tripId, @RequestBody TripRequestDTO request) {
         TripResponseDTO response = service.editTrip(tripId, request);
@@ -47,6 +50,7 @@ public class TripController {
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
+    //FAZ SENTIDO TER?
     @DeleteMapping("/{tripId}")
     public ResponseEntity<CustomerResponseDTO> deleteTrip(@PathVariable UUID tripId) {
         service.deleteTrip(tripId);

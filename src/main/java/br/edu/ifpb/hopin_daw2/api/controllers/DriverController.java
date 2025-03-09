@@ -5,6 +5,7 @@ import br.edu.ifpb.hopin_daw2.core.service.DriverService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -24,12 +25,13 @@ public class DriverController {
     }
 
     @GetMapping("/{customerId}/getTripsHistory")
+    @PreAuthorize("hasAnyRole('DRIVER')")
     public ResponseEntity<List<TripResponseDTO>> getTripsHistory(
-            @PathVariable UUID customerId,
+            @PathVariable UUID driverId,
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size
     ) {
-        List<TripResponseDTO> trips = service.getTripsHistory(customerId, page, size);
+        List<TripResponseDTO> trips = service.getTripsHistory(driverId, page, size);
 
         return ResponseEntity.status(HttpStatus.OK).body(trips);
     }
@@ -42,6 +44,7 @@ public class DriverController {
     }
 
     @PutMapping("/{driverId}")
+    @PreAuthorize("hasAnyRole('DRIVER')")
     public ResponseEntity<DriverResponseDTO> editDriver(@PathVariable UUID driverId, @RequestBody EditDriverRequestDTO request) {
         DriverResponseDTO reponse = service.editDriver(driverId, request);
 
@@ -49,6 +52,7 @@ public class DriverController {
     }
 
     @DeleteMapping("/{driverId}")
+    @PreAuthorize("hasAnyRole('DRIVER')")
     public ResponseEntity deleteDriver(@PathVariable UUID driverId) {
         service.deleteDriver(driverId);
 
