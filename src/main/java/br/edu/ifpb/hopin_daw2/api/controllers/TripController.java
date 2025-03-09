@@ -49,12 +49,4 @@ public class TripController {
 
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
-
-    //FAZ SENTIDO TER?
-    @DeleteMapping("/{tripId}")
-    public ResponseEntity<CustomerResponseDTO> deleteTrip(@PathVariable UUID tripId) {
-        service.deleteTrip(tripId);
-
-        return ResponseEntity.noContent().build();
-    }
 }
