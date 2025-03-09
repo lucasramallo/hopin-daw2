@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.UUID;
@@ -33,6 +34,7 @@ public class CustomerController {
     }
 
     @GetMapping("/{customerId}/getTripsHistory")
+    @PreAuthorize("hasAnyRole('CUSTOMER')")
     public ResponseEntity<Page<TripResponseDTO>> getTripsHistory(@PathVariable UUID customerId, @RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "5") int size) {
         Page<TripResponseDTO> trips = service.getTripsHistory(customerId, page, size);
 
@@ -40,6 +42,7 @@ public class CustomerController {
     }
 
     @PutMapping("/{customerId}")
+    @PreAuthorize("hasAnyRole('CUSTOMER')")
     public ResponseEntity<CustomerResponseDTO> editCustomer(@PathVariable UUID customerId, @RequestBody CustomerRequestDTO request) {
         CustomerResponseDTO response = service.editCustomer(customerId, request);
 
@@ -47,6 +50,7 @@ public class CustomerController {
     }
 
     @DeleteMapping("/{customerId}")
+    @PreAuthorize("hasAnyRole('CUSTOMER')")
     public ResponseEntity<CustomerResponseDTO> deleteCustomer(@PathVariable UUID customerId) {
         service.deleteCustomer(customerId);
 

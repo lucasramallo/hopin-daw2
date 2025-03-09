@@ -14,6 +14,7 @@ import br.edu.ifpb.hopin_daw2.mappers.TripMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -27,6 +28,9 @@ public class CustomerService {
     @Autowired
     private CustomerMapper customerMapper;
 
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
     public CustomerResponseDTO createCustomer(CustomerRequestDTO dto) {
         CustomerValidations.validateEmail(dto.email());
         CustomerValidations.verifyEmailAlreadyRegistered(repository, dto.email());
@@ -35,7 +39,7 @@ public class CustomerService {
         Customer customer = new Customer();
         customer.setName(dto.name());
         customer.setEmail(dto.email());
-        customer.setPassword(dto.password());
+        customer.setPassword(passwordEncoder.encode(dto.password()));
         customer.setRole(Role.CUSTOMER);
         customer.setCreditCardNumber(dto.creditCardNumber());
         customer.setCreditCardCVV(dto.creditCardCVV());

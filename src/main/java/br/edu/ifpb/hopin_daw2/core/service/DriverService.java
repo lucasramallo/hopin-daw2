@@ -6,12 +6,14 @@ import br.edu.ifpb.hopin_daw2.core.domain.cab.exceptions.CabNotFoundException;
 import br.edu.ifpb.hopin_daw2.core.domain.driver.Driver;
 import br.edu.ifpb.hopin_daw2.core.domain.driver.exceptions.DriverNotFoundException;
 import br.edu.ifpb.hopin_daw2.core.domain.driver.util.DriverValidations;
+import br.edu.ifpb.hopin_daw2.core.domain.role.Role;
 import br.edu.ifpb.hopin_daw2.core.domain.trips.Trip;
 import br.edu.ifpb.hopin_daw2.data.jpa.DriverRepository;
 import br.edu.ifpb.hopin_daw2.data.jpa.TripRepository;
 import br.edu.ifpb.hopin_daw2.mappers.TripMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -32,18 +34,20 @@ public class DriverService {
     @Autowired
     private CabService cabService;
 
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
     public DriverResponseDTO createDriver(CreateDriverRequestDTO requestDTO) {
         DriverValidations.validateName(requestDTO.name());
         DriverValidations.validateEmail(requestDTO.email());
         DriverValidations.validateAge(requestDTO.dateOfBirth());
 
         Driver driver = new Driver();
-        driver.setId(UUID.randomUUID());
         driver.setName(requestDTO.name());
-        driver.setPassword(requestDTO.password());
-        driver.setDateOfBirth(requestDTO.dateOfBirth());
-        driver.setCreatedAt(LocalDateTime.now());
         driver.setEmail(requestDTO.email());
+        driver.setPassword(passwordEncoder.encode(requestDTO.password()));
+        driver.setDateOfBirth(requestDTO.dateOfBirth());
+        driver.setRole(Role.DRIVER);
 
         Cab cab = cabService.createCab(requestDTO);
 
@@ -78,8 +82,8 @@ public class DriverService {
         );
     }
 
-    public List<TripResponseDTO> getTripsHistory(UUID customerId, int page,  int size) {
-        Optional<Driver> driver = repository.findById(customerId);
+    public List<TripResponseDTO> getTripsHistory(UUID driverId, int page,  int size) {
+        Optional<Driver> driver = repository.findById(driverId);
 
         if(driver.isEmpty()) {
             throw new DriverNotFoundException();

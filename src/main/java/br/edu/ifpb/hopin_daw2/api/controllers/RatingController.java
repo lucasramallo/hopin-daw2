@@ -6,6 +6,7 @@ import br.edu.ifpb.hopin_daw2.core.service.RatingService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,6 +19,7 @@ public class RatingController {
     private RatingService ratingService;
 
     @PostMapping()
+    @PreAuthorize("hasAnyRole('CUSTOMER')")
     public ResponseEntity<RatingResponseDTO> createRating(@RequestBody RatingRequestDTO requestDTO) {
         RatingResponseDTO responseDTO = ratingService.save(requestDTO);
 
