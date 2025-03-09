@@ -5,6 +5,7 @@ import br.edu.ifpb.hopin_daw2.api.security.util.JwtUtil;
 import br.edu.ifpb.hopin_daw2.core.domain.user.User;
 import br.edu.ifpb.hopin_daw2.core.service.CustomerService;
 import br.edu.ifpb.hopin_daw2.core.service.DriverService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -33,7 +34,7 @@ public class AuthController {
 
 
     @PostMapping("/login")
-    public LoginResponseDTO login(@RequestBody LoginRequestDTO request) {
+    public LoginResponseDTO login(@RequestBody @Valid LoginRequestDTO request) {
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(request.email(), request.password()));
 
@@ -46,14 +47,14 @@ public class AuthController {
 
 
     @PostMapping("/driver/register")
-    public ResponseEntity<DriverResponseDTO> createDriver(@RequestBody CreateDriverRequestDTO request) {
+    public ResponseEntity<DriverResponseDTO> createDriver(@RequestBody @Valid CreateDriverRequestDTO request) {
         DriverResponseDTO reponse = driverService.createDriver(request);
 
         return ResponseEntity.status(HttpStatus.CREATED).body(reponse);
     }
 
     @PostMapping("/customer/register")
-    public ResponseEntity<CustomerResponseDTO> createCustomer(@RequestBody CustomerRequestDTO request) {
+    public ResponseEntity<CustomerResponseDTO> createCustomer(@RequestBody @Valid CustomerRequestDTO request) {
         CustomerResponseDTO response = customerService.createCustomer(request);
 
         return ResponseEntity.status(HttpStatus.CREATED).body(response);

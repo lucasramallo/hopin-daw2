@@ -1,8 +1,6 @@
 package br.edu.ifpb.hopin_daw2.api.security;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
 import br.edu.ifpb.hopin_daw2.api.security.util.JwtUtil;
 import br.edu.ifpb.hopin_daw2.core.domain.user.User;

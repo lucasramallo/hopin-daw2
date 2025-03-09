@@ -8,7 +8,9 @@ import br.edu.ifpb.hopin_daw2.core.domain.customer.exceptions.CustomerNotFoundEx
 import br.edu.ifpb.hopin_daw2.core.domain.customer.util.CustomerValidations;
 import br.edu.ifpb.hopin_daw2.core.domain.role.Role;
 import br.edu.ifpb.hopin_daw2.core.domain.trips.Trip;
+import br.edu.ifpb.hopin_daw2.core.domain.user.util.UserValidations;
 import br.edu.ifpb.hopin_daw2.data.jpa.CustomerRepository;
+import br.edu.ifpb.hopin_daw2.data.jpa.UserRepository;
 import br.edu.ifpb.hopin_daw2.mappers.CustomerMapper;
 import br.edu.ifpb.hopin_daw2.mappers.TripMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +25,10 @@ import java.util.UUID;
 @Service
 public class CustomerService {
     @Autowired
-    private CustomerRepository repository;
+    private UserRepository userRepository;
+
+    @Autowired
+    private CustomerRepository customerRepository;
 
     @Autowired
     private CustomerMapper customerMapper;
@@ -32,8 +37,8 @@ public class CustomerService {
     private PasswordEncoder passwordEncoder;
 
     public CustomerResponseDTO createCustomer(CustomerRequestDTO dto) {
-        CustomerValidations.validateEmail(dto.email());
-        CustomerValidations.verifyEmailAlreadyRegistered(repository, dto.email());
+        UserValidations.validateEmail(dto.email());
+        UserValidations.verifyEmailAlreadyRegistered(userRepository, dto.email());
         CustomerValidations.validateName(dto.name());
 
         Customer customer = new Customer();
@@ -45,13 +50,13 @@ public class CustomerService {
         customer.setCreditCardCVV(dto.creditCardCVV());
         customer.setCreditCardExpiry(dto.creditCardExpiry());
 
-        repository.save(customer);
+        customerRepository.save(customer);
 
         return customerMapper.toDTO(customer);
     }
 
     public CustomerResponseDTO getCustomerById(UUID id) {
-        Optional<Customer> customer = repository.findById(id);
+        Optional<Customer> customer = customerRepository.findById(id);
 
         if (customer.isEmpty()) {
             throw new CustomerNotFoundException();
@@ -61,7 +66,7 @@ public class CustomerService {
     }
 
     public CustomerResponseDTO getCustomerByEmail(String email) {
-        Optional<Customer> customer = repository.findByEmail(email);
+        Optional<Customer> customer = customerRepository.findByEmail(email);
 
         if (customer.isEmpty()) {
             throw new CustomerNotFoundException();
@@ -71,13 +76,14 @@ public class CustomerService {
     }
 
     public Page<TripResponseDTO> getTripsHistory(UUID customerId, Integer page, Integer size) {
-        Page<Trip> trips = repository.getTripsHistory(customerId, PageRequest.of(page, size));
+        Page<Trip> trips = customerRepository.getTripsHistory(customerId, PageRequest.of(page, size));
 
         return trips.map(TripMapper::toDTO);
     }
 
     public CustomerResponseDTO editCustomer(UUID id, CustomerRequestDTO dto) {
-        Optional<Customer> customer = repository.findById(id);
+        Optional<Customer> customer = customerRepository.findById(id);
+        UserValidations.validateEmail(dto.email());
 
         if (customer.isEmpty()) {
             throw new CustomerNotFoundException();
@@ -89,18 +95,18 @@ public class CustomerService {
         customerFound.setEmail(dto.email());
         customerFound.setPassword(dto.password());
 
-        repository.save(customer.get());
+        customerRepository.save(customer.get());
 
         return customerMapper.toDTO(customerFound);
     }
 
     public void deleteCustomer(UUID id) {
-        Optional<Customer> customer = repository.findById(id);
+        Optional<Customer> customer = customerRepository.findById(id);
 
         if (customer.isEmpty()) {
             throw new CustomerNotFoundException();
         }
 
-        repository.delete(customer.get());
+        customerRepository.delete(customer.get());
     }
 }

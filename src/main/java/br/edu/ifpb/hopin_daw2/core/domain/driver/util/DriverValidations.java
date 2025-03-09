@@ -1,8 +1,6 @@
 package br.edu.ifpb.hopin_daw2.core.domain.driver.util;
 
-import br.edu.ifpb.hopin_daw2.api.dto.CreateDriverRequestDTO;
 import br.edu.ifpb.hopin_daw2.api.globalExceptions.InvalidUserNameException;
-import br.edu.ifpb.hopin_daw2.api.globalExceptions.InvalidEmailException;
 import br.edu.ifpb.hopin_daw2.core.domain.driver.exceptions.UnderageDriverException;
 
 import java.time.LocalDate;
@@ -25,15 +23,6 @@ public class DriverValidations {
 
         if(driverAge < 18) {
             throw new UnderageDriverException("The user cannot be underage.");
-        }
-    }
-
-    public static void validateEmail(String email) {
-        Pattern pattern = Pattern.compile("^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,6}$");
-        Matcher matcher = pattern.matcher(email);
-
-        if (!matcher.matches()) {
-            throw new InvalidEmailException("Invalid email format!");
         }
     }
 }
