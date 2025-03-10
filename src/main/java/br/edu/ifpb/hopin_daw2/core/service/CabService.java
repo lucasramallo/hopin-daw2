@@ -20,7 +20,6 @@ public class CabService {
         validatePlate(requestDTO.plateNum());
 
         Cab cab = new Cab();
-        cab.setId(UUID.randomUUID());
         cab.setModel(requestDTO.model());
         cab.setPlateNum(requestDTO.plateNum());
         cab.setColor(requestDTO.color());

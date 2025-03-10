@@ -6,14 +6,12 @@ import jakarta.persistence.*;
 import lombok.Data;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.util.UUID;
 
 @Entity(name = "drivers")
 @Table(name = "drivers")
 @Data
 public class Driver extends User {
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "cab_id")
     private Cab cab;
 

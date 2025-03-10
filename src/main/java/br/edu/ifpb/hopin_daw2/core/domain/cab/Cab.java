@@ -1,13 +1,11 @@
 package br.edu.ifpb.hopin_daw2.core.domain.cab;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 @AllArgsConstructor
@@ -28,4 +26,9 @@ public class Cab {
 
     @Column(name = "plate_num", nullable = false)
     private String plateNum;
+
+    @PrePersist
+    private void init() {
+        this.id = UUID.randomUUID();
+    }
 }
