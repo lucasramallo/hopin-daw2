@@ -1,6 +1,7 @@
 package br.edu.ifpb.hopin_daw2.api.config;
 
 import br.edu.ifpb.hopin_daw2.core.domain.cab.exceptions.CabNotFoundException;
+import br.edu.ifpb.hopin_daw2.core.domain.payments.exceptions.NoCreditCardInfo;
 import br.edu.ifpb.hopin_daw2.core.domain.rating.exceptions.RatingNotFoundExcertion;
 import br.edu.ifpb.hopin_daw2.core.domain.user.exceptions.EmailAlreadyRegisteredException;
 import br.edu.ifpb.hopin_daw2.core.domain.cab.exceptions.InvalidPlateException;
@@ -45,7 +46,8 @@ public class ExceptionsHandler extends ResponseEntityExceptionHandler {
         INVALID_TOKEN,
         UNDERAGE_DRIVER_ERROR,
         INVALID_CAB_PLATE,
-        ACCES_DENIED;
+        ACCES_DENIED,
+        NO_CREDIT_CARD_INFO;
     }
 
     @ExceptionHandler(Exception.class)
@@ -139,6 +141,12 @@ public class ExceptionsHandler extends ResponseEntityExceptionHandler {
     @ExceptionHandler(RatingNotFoundExcertion.class)
     public ProblemDetail handleTripNotFound(RatingNotFoundExcertion e) {
         return buildProblemDetail(e, HttpStatus.NOT_FOUND, ErrorType.RATING_NOT_FOUND);
+    }
+
+    //Payment
+    @ExceptionHandler(NoCreditCardInfo.class)
+    public ProblemDetail handleTripNotFound(NoCreditCardInfo e) {
+        return buildProblemDetail(e, HttpStatus.UNPROCESSABLE_ENTITY, ErrorType.NO_CREDIT_CARD_INFO);
     }
 
     // Validations

@@ -6,7 +6,9 @@ import br.edu.ifpb.hopin_daw2.core.domain.customer.Customer;
 import br.edu.ifpb.hopin_daw2.core.domain.customer.exceptions.CustomerNotFoundException;
 import br.edu.ifpb.hopin_daw2.core.domain.driver.Driver;
 import br.edu.ifpb.hopin_daw2.core.domain.driver.exceptions.DriverNotFoundException;
+import br.edu.ifpb.hopin_daw2.core.domain.payments.Method;
 import br.edu.ifpb.hopin_daw2.core.domain.payments.Payment;
+import br.edu.ifpb.hopin_daw2.core.domain.payments.exceptions.NoCreditCardInfo;
 import br.edu.ifpb.hopin_daw2.core.domain.trips.Status;
 import br.edu.ifpb.hopin_daw2.core.domain.trips.Trip;
 import br.edu.ifpb.hopin_daw2.core.domain.trips.exceprions.TripNotFoundException;
@@ -42,6 +44,10 @@ public class TripService {
 
         if(driver.isEmpty()){
             throw new DriverNotFoundException();
+        }
+
+        if(dto.paymentMethod() == Method.CREDIT_CARD && customer.get().getCreditCardNumber() == null) {
+            throw new NoCreditCardInfo("Customer have not credit card info");
         }
 
         Payment payment = new Payment();
