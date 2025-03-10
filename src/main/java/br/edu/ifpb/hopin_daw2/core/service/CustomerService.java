@@ -94,6 +94,9 @@ public class CustomerService {
         customerFound.setName(dto.name());
         customerFound.setEmail(dto.email());
         customerFound.setPassword(dto.password());
+        customerFound.setCreditCardNumber(dto.creditCardNumber());
+        customerFound.setCreditCardCVV(dto.creditCardCVV());
+        customerFound.setCreditCardExpiry(dto.creditCardExpiry());
 
         customerRepository.save(customer.get());
 

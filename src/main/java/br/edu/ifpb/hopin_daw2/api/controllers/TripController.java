@@ -19,7 +19,7 @@ public class TripController {
     @Autowired
     private TripService service;
 
-    @PostMapping("/create")
+    @PostMapping()
     @PreAuthorize("hasAnyRole('CUSTOMER')")
     public ResponseEntity<TripResponseDTO> createTrip(@RequestBody @Valid TripRequestDTO dto) {
         TripResponseDTO response = service.createTrip(dto);

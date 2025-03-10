@@ -58,6 +58,6 @@ public class DriverController {
     public ResponseEntity<Driver> deleteDriver(@PathVariable UUID driverId) {
         service.deleteDriver(driverId);
 
-        return ResponseEntity.status(HttpStatus.OK).build();
+        return ResponseEntity.noContent().build();
     }
 }

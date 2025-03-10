@@ -9,6 +9,7 @@ import br.edu.ifpb.hopin_daw2.core.domain.driver.exceptions.UnderageDriverExcept
 import br.edu.ifpb.hopin_daw2.api.globalExceptions.*;
 import br.edu.ifpb.hopin_daw2.core.domain.trips.exceprions.TripNotFoundException;
 import org.springframework.http.*;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -41,7 +42,8 @@ public class ExceptionsHandler extends ResponseEntityExceptionHandler {
         REQUIRED_FIELDS_NOT_FILLED,
         INVALID_TOKEN,
         UNDERAGE_DRIVER_ERROR,
-        INVALID_CAB_PLATE;
+        INVALID_CAB_PLATE,
+        ACCES_DENIED;
     }
 
     @ExceptionHandler(Exception.class)
@@ -79,6 +81,11 @@ public class ExceptionsHandler extends ResponseEntityExceptionHandler {
     }
 
     //Global
+
+    @ExceptionHandler(AccessDeniedException.class)
+    public ProblemDetail handleAuthenticationException(AccessDeniedException e) {
+        return buildProblemDetail(e, HttpStatus.FORBIDDEN, ErrorType.ACCES_DENIED);
+    }
 
     @ExceptionHandler(AuthenticationException.class)
     public ProblemDetail handleAuthenticationException(AuthenticationException e) {

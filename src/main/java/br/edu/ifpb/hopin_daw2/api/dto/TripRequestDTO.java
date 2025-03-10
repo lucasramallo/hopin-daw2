@@ -10,9 +10,9 @@ import java.math.BigDecimal;
 import java.util.UUID;
 
 public record TripRequestDTO(
-        @NotBlank
+        @NotNull
         UUID customerId,
-        @NotBlank
+        @NotNull
         UUID driverId,
         @NotNull
         Method paymentMethod,

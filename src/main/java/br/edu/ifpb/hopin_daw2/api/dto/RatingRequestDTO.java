@@ -1,17 +1,21 @@
 package br.edu.ifpb.hopin_daw2.api.dto;
 
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 
 import java.util.UUID;
 
 public record RatingRequestDTO(
-        @NotBlank
+        @NotNull
         UUID customerId,
-        @NotBlank
+        @NotNull
         UUID driverId,
-        @NotBlank
+        @NotNull
         UUID tripId,
-        @NotBlank
+        @Min(0)
+        @Max(5)
         int rating,
         String feedback
 ) {
