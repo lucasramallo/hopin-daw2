@@ -1,5 +1,6 @@
 package br.edu.ifpb.hopin_daw2.core.service;
 
+import br.edu.ifpb.hopin_daw2.api.dto.EditRatingRequestDTO;
 import br.edu.ifpb.hopin_daw2.api.dto.RatingRequestDTO;
 import br.edu.ifpb.hopin_daw2.api.dto.RatingResponseDTO;
 import br.edu.ifpb.hopin_daw2.core.domain.customer.Customer;
@@ -7,6 +8,8 @@ import br.edu.ifpb.hopin_daw2.core.domain.customer.exceptions.CustomerNotFoundEx
 import br.edu.ifpb.hopin_daw2.core.domain.driver.Driver;
 import br.edu.ifpb.hopin_daw2.core.domain.driver.exceptions.DriverNotFoundException;
 import br.edu.ifpb.hopin_daw2.core.domain.rating.Rating;
+import br.edu.ifpb.hopin_daw2.core.domain.rating.exceptions.RatingNotFoundExcertion;
+import br.edu.ifpb.hopin_daw2.core.domain.rating.util.RatingMapper;
 import br.edu.ifpb.hopin_daw2.core.domain.trips.Trip;
 import br.edu.ifpb.hopin_daw2.core.domain.trips.exceprions.TripNotFoundException;
 import br.edu.ifpb.hopin_daw2.data.jpa.CustomerRepository;
@@ -69,4 +72,19 @@ public class RatingService {
                 rating.getFeedback()
         );
     }
+
+    public RatingResponseDTO update(UUID ratingId, EditRatingRequestDTO requestDTO) {
+        Optional<Rating> rating = ratingRepository.findById(ratingId);
+
+        if(rating.isEmpty()) {
+            throw new RatingNotFoundExcertion("Rating not found!");
+        }
+
+        rating.get().setRating(requestDTO.rating());
+        rating.get().setFeedback(requestDTO.feedback());
+
+        ratingRepository.save(rating.get());
+
+        return RatingMapper.toDTO(rating.get());
+    };
 }
