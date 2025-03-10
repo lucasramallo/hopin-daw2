@@ -1,5 +1,6 @@
 package br.edu.ifpb.hopin_daw2.api.controllers;
 
+import br.edu.ifpb.hopin_daw2.api.controllers.apiDoc.RatingControllerApi;
 import br.edu.ifpb.hopin_daw2.api.dto.RatingRequestDTO;
 import br.edu.ifpb.hopin_daw2.api.dto.RatingResponseDTO;
 import br.edu.ifpb.hopin_daw2.core.service.RatingService;
@@ -15,7 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/rating")
-public class RatingController {
+public class RatingController implements RatingControllerApi {
     @Autowired
     private RatingService ratingService;
 

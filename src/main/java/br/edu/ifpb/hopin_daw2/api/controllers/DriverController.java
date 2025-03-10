@@ -1,7 +1,7 @@
 package br.edu.ifpb.hopin_daw2.api.controllers;
 
+import br.edu.ifpb.hopin_daw2.api.controllers.apiDoc.DriverControllerApi;
 import br.edu.ifpb.hopin_daw2.api.dto.*;
-import br.edu.ifpb.hopin_daw2.core.domain.driver.Driver;
 import br.edu.ifpb.hopin_daw2.core.service.DriverService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +15,7 @@ import java.util.UUID;
 
 @RestController
 @RequestMapping("/driver")
-public class DriverController {
+public class DriverController implements DriverControllerApi {
     @Autowired
     private DriverService service;
 
@@ -55,7 +55,7 @@ public class DriverController {
 
     @DeleteMapping("/{driverId}")
     @PreAuthorize("hasAnyRole('DRIVER')")
-    public ResponseEntity<Driver> deleteDriver(@PathVariable UUID driverId) {
+    public ResponseEntity<DriverResponseDTO> deleteDriver(@PathVariable UUID driverId) {
         service.deleteDriver(driverId);
 
         return ResponseEntity.noContent().build();
