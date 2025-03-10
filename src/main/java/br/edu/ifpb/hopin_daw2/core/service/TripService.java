@@ -124,14 +124,4 @@ public class TripService {
 
         return TripMapper.toDTO(trip.get());
     }
-
-    public void deleteTrip(UUID tripId) {
-        Optional<Trip> trip = tripRepository.findById(tripId);
-
-        if (trip.isEmpty()) {
-            throw new TripNotFoundException();
-        }
-
-        tripRepository.delete(trip.get());
-    }
 }

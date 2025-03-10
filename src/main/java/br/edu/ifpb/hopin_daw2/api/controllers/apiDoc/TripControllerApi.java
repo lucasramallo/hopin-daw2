@@ -49,23 +49,6 @@ public interface TripControllerApi {
     ResponseEntity<TripResponseDTO> getTripById(@Parameter(description = "ID da viagem a ser recuperada")
                                                 UUID tripId);
 
-    @Operation(summary = "Editar uma viagem",
-            description = "Permite editar as informações de uma viagem existente.",
-            tags = { "trip" })
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "200",
-                    description = "Viagem editada com sucesso.",
-                    content = @Content(mediaType = "application/json",
-                            schema = @Schema(implementation = TripResponseDTO.class))),
-            @ApiResponse(responseCode = "400",
-                    description = "Erro na validação dos dados fornecidos.",
-                    content = @Content(mediaType = "application/json")),
-    })
-    ResponseEntity<TripResponseDTO> editTrip(@Parameter(description = "ID da viagem a ser editada")
-                                             UUID tripId,
-                                             @Parameter(description = "Novos dados da viagem")
-                                             TripRequestDTO request);
-
     @Operation(summary = "Editar o status de uma viagem",
             description = "Permite editar o status de uma viagem existente.",
             tags = { "trip" })
@@ -82,18 +65,5 @@ public interface TripControllerApi {
                                                    UUID tripId,
                                                    @Parameter(description = "Novo status da viagem")
                                                    Status status);
-
-    @Operation(summary = "Deletar uma viagem",
-            description = "Permite deletar uma viagem existente.",
-            tags = { "trip" })
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "400",
-                    description = "Viagem deletada com sucesso."),
-            @ApiResponse(responseCode = "404",
-                    description = "Viagem não encontrada.",
-                    content = @Content(mediaType = "application/json")),
-    })
-    ResponseEntity<Void> deleteTrip(@Parameter(description = "ID da viagem a ser deletada")
-                                    UUID tripId);
 }
 

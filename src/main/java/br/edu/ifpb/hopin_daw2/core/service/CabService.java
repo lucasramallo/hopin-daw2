@@ -1,12 +1,15 @@
 package br.edu.ifpb.hopin_daw2.core.service;
 
 import br.edu.ifpb.hopin_daw2.api.dto.CreateDriverRequestDTO;
+import br.edu.ifpb.hopin_daw2.api.dto.EditDriverRequestDTO;
 import br.edu.ifpb.hopin_daw2.core.domain.cab.Cab;
+import br.edu.ifpb.hopin_daw2.core.domain.cab.exceptions.CabNotFoundException;
 import br.edu.ifpb.hopin_daw2.core.domain.cab.exceptions.InvalidPlateException;
 import br.edu.ifpb.hopin_daw2.data.jpa.CabRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
 import java.util.UUID;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -27,6 +30,24 @@ public class CabService {
         repository.save(cab);
 
         return cab;
+    }
+
+    public Cab editCab(EditDriverRequestDTO requestDTO) {
+        validatePlate(requestDTO.plateNum());
+        Optional<Cab> cab = repository.findByPlateNum(requestDTO.plateNum());
+
+        if(cab.isEmpty()) {
+            throw new CabNotFoundException();
+        }
+
+        Cab cabToEdit = cab.get();
+        cabToEdit.setModel(requestDTO.model());
+        cabToEdit.setPlateNum(requestDTO.plateNum());
+        cabToEdit.setColor(requestDTO.color());
+
+        repository.save(cabToEdit);
+
+        return cabToEdit;
     }
 
     public void validatePlate(String plate) {

@@ -8,15 +8,16 @@ import br.edu.ifpb.hopin_daw2.core.domain.driver.exceptions.DriverNotFoundExcept
 import br.edu.ifpb.hopin_daw2.core.domain.driver.util.DriverValidations;
 import br.edu.ifpb.hopin_daw2.core.domain.role.Role;
 import br.edu.ifpb.hopin_daw2.core.domain.trips.Trip;
+import br.edu.ifpb.hopin_daw2.core.domain.user.util.UserValidations;
 import br.edu.ifpb.hopin_daw2.data.jpa.DriverRepository;
 import br.edu.ifpb.hopin_daw2.data.jpa.TripRepository;
+import br.edu.ifpb.hopin_daw2.data.jpa.UserRepository;
 import br.edu.ifpb.hopin_daw2.mappers.TripMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -25,6 +26,9 @@ import java.util.stream.Collectors;
 
 @Service
 public class DriverService {
+    @Autowired
+    private UserRepository userRepository;
+
     @Autowired
     private DriverRepository repository;
 
@@ -39,8 +43,9 @@ public class DriverService {
 
     public DriverResponseDTO createDriver(CreateDriverRequestDTO requestDTO) {
         DriverValidations.validateName(requestDTO.name());
-        DriverValidations.validateEmail(requestDTO.email());
+        UserValidations.validateEmail(requestDTO.email());
         DriverValidations.validateAge(requestDTO.dateOfBirth());
+        UserValidations.verifyEmailAlreadyRegistered(userRepository, requestDTO.email());
 
         Driver driver = new Driver();
         driver.setName(requestDTO.name());
@@ -99,26 +104,32 @@ public class DriverService {
     public DriverResponseDTO editDriver(UUID id, EditDriverRequestDTO requestDTO) {
         DriverValidations.validateName(requestDTO.name());
         DriverValidations.validateAge(requestDTO.dateOfBirth());
-        DriverValidations.validateEmail(requestDTO.email());
+        UserValidations.validateEmail(requestDTO.email());
 
-        Optional<Driver> driverFound = repository.findById(id);
+        Optional<Driver> driver = repository.findById(id);
 
-        if(driverFound.isEmpty()) {
+        if(driver.isEmpty()) {
             throw new DriverNotFoundException();
         }
 
-        driverFound.get().setName(requestDTO.name());
-        driverFound.get().setDateOfBirth(requestDTO.dateOfBirth());
+        Driver driverToEdit = driver.get();
 
-        repository.save(driverFound.get());
+        Cab cab = cabService.editCab(requestDTO);
+
+        driverToEdit.setName(requestDTO.name());
+        driverToEdit.setEmail(requestDTO.email());
+        driverToEdit.setDateOfBirth(requestDTO.dateOfBirth());
+        driverToEdit.setCab(cab);
+
+        repository.save(driverToEdit);
 
         return new DriverResponseDTO(
-                driverFound.get().getId(),
-                driverFound.get().getName(),
-                driverFound.get().getEmail(),
-                driverFound.get().getDateOfBirth(),
-                driverFound.get().getCab(),
-                driverFound.get().getCreatedAt()
+                driverToEdit.getId(),
+                driverToEdit.getName(),
+                driverToEdit.getEmail(),
+                driverToEdit.getDateOfBirth(),
+                driverToEdit.getCab(),
+                driverToEdit.getCreatedAt()
         );
     }
 
