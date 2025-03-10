@@ -3,6 +3,7 @@ package br.edu.ifpb.hopin_daw2.core.domain.trips;
 import br.edu.ifpb.hopin_daw2.core.domain.customer.Customer;
 import br.edu.ifpb.hopin_daw2.core.domain.driver.Driver;
 import br.edu.ifpb.hopin_daw2.core.domain.payments.Payment;
+import br.edu.ifpb.hopin_daw2.core.domain.rating.Rating;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -38,6 +39,9 @@ public class Trip {
 
     @Column(nullable = false)
     private String destination;
+
+    @OneToOne(mappedBy = "trip", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Rating rating;
 
     @Column(name = "created_at", nullable = false)
     private LocalDateTime createdAt;

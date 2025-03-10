@@ -28,6 +28,6 @@ public class Customer extends User {
     @Column(name = "credit_card_cvv")
     private String creditCardCVV;
 
-    @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "customer", cascade = CascadeType.REMOVE, orphanRemoval = true)
     private List<Trip> trips = new ArrayList<>();
 }

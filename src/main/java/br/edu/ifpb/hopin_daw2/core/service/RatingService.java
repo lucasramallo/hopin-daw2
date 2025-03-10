@@ -62,7 +62,9 @@ public class RatingService {
         rating.setRating(requestDTO.rating());
         rating.setFeedback(requestDTO.feedback());
 
-        ratingRepository.save(rating);
+        tripFound.get().setRating(rating);
+
+        tripRepository.save(tripFound.get());
 
         return new RatingResponseDTO(
                 rating.getId(),

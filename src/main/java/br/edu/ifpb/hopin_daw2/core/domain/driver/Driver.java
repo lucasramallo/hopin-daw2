@@ -22,7 +22,4 @@ public class Driver extends User {
 
     @Column(name = "date_of_birth", nullable = false)
     private LocalDate dateOfBirth;
-
-    @OneToMany(mappedBy = "driver", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Trip> trips = new ArrayList<>();
 }

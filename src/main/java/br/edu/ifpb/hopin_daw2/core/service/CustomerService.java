@@ -114,6 +114,8 @@ public class CustomerService {
             throw new CustomerNotFoundException();
         }
 
+        tripRepository.deleteAll(getTripsHistory(id, 0, 100).stream().);
+
         customerRepository.delete(customer.get());
     }
 }
