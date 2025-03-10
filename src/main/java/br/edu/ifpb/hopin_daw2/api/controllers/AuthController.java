@@ -1,5 +1,6 @@
 package br.edu.ifpb.hopin_daw2.api.controllers;
 
+import br.edu.ifpb.hopin_daw2.api.controllers.apiDoc.AuthControllerApi;
 import br.edu.ifpb.hopin_daw2.api.dto.*;
 import br.edu.ifpb.hopin_daw2.api.security.util.JwtProvider;
 import br.edu.ifpb.hopin_daw2.core.domain.user.User;
@@ -20,7 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/auth")
-public class AuthController {
+public class AuthController implements AuthControllerApi {
     @Autowired
     private DriverService driverService;
 

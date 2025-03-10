@@ -1,5 +1,6 @@
 package br.edu.ifpb.hopin_daw2.api.controllers;
 
+import br.edu.ifpb.hopin_daw2.api.controllers.apiDoc.TripControllerApi;
 import br.edu.ifpb.hopin_daw2.api.dto.*;
 import br.edu.ifpb.hopin_daw2.core.domain.trips.Status;
 import br.edu.ifpb.hopin_daw2.core.domain.trips.Trip;
@@ -16,7 +17,7 @@ import java.util.UUID;
 
 @RestController
 @RequestMapping("/trip")
-public class TripController {
+public class TripController implements TripControllerApi {
     @Autowired
     private TripService service;
 
@@ -52,9 +53,9 @@ public class TripController {
 
     //FAZ SENTIDO TER?
     @DeleteMapping("/{tripId}")
-    public ResponseEntity<CustomerResponseDTO> deleteTrip(@PathVariable UUID tripId) {
+    public ResponseEntity<Void> deleteTrip(@PathVariable UUID tripId) {
         service.deleteTrip(tripId);
 
-        return ResponseEntity.noContent().build();
+        return ResponseEntity.status(HttpStatus.OK).build();
     }
 }

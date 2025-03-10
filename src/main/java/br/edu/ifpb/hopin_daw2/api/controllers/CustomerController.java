@@ -1,5 +1,6 @@
 package br.edu.ifpb.hopin_daw2.api.controllers;
 
+import br.edu.ifpb.hopin_daw2.api.controllers.apiDoc.CustomerControllerApi;
 import br.edu.ifpb.hopin_daw2.api.dto.CustomerRequestDTO;
 import br.edu.ifpb.hopin_daw2.api.dto.CustomerResponseDTO;
 import br.edu.ifpb.hopin_daw2.api.dto.TripResponseDTO;
@@ -15,7 +16,7 @@ import java.util.UUID;
 
 @RestController
 @RequestMapping("/customer")
-public class CustomerController {
+public class CustomerController implements CustomerControllerApi {
     @Autowired
     private CustomerService service;
 
