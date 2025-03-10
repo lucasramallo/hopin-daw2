@@ -25,7 +25,7 @@ public class DriverController implements DriverControllerApi {
         return ResponseEntity.status(HttpStatus.OK).body(reponse);
     }
 
-    @GetMapping("/{customerId}/getTripsHistory")
+    @GetMapping("/{driverId}/getTripsHistory")
     @PreAuthorize("hasAnyRole('DRIVER')")
     public ResponseEntity<List<TripResponseDTO>> getTripsHistory(
             @PathVariable UUID driverId,
