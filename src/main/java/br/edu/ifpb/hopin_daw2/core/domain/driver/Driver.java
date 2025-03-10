@@ -13,7 +13,7 @@ import java.util.UUID;
 @Table(name = "drivers")
 @Data
 public class Driver extends User {
-    @OneToOne
+    @OneToOne(cascade = CascadeType.REMOVE)
     @JoinColumn(name = "cab_id")
     private Cab cab;
 

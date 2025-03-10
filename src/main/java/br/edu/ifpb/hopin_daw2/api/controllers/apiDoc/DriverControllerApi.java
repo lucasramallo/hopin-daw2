@@ -95,6 +95,6 @@ public interface DriverControllerApi {
                     description = "Driver not found!",
                     content = @Content(mediaType = "application/json")),
     })
-    ResponseEntity<Void> deleteDriver(@Parameter(description = "ID do motorista")
+    ResponseEntity<DriverResponseDTO> deleteDriver(@Parameter(description = "ID do motorista")
                                       UUID driverId);
 }

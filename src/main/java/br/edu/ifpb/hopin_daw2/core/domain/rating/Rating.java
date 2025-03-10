@@ -17,11 +17,11 @@ public class Rating {
     @Column
     private UUID id;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.REMOVE)
     @JoinColumn(name = "customer_id", nullable = false)
     private Customer customer;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.REMOVE)
     @JoinColumn(name = "driver_id", nullable = false)
     private Driver driver;
 

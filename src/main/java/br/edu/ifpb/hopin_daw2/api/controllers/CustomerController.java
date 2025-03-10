@@ -5,6 +5,7 @@ import br.edu.ifpb.hopin_daw2.api.dto.CustomerRequestDTO;
 import br.edu.ifpb.hopin_daw2.api.dto.CustomerResponseDTO;
 import br.edu.ifpb.hopin_daw2.api.dto.TripResponseDTO;
 import br.edu.ifpb.hopin_daw2.core.service.CustomerService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
@@ -44,7 +45,7 @@ public class CustomerController implements CustomerControllerApi {
 
     @PutMapping("/{customerId}")
     @PreAuthorize("hasAnyRole('CUSTOMER')")
-    public ResponseEntity<CustomerResponseDTO> editCustomer(@PathVariable UUID customerId, @RequestBody CustomerRequestDTO request) {
+    public ResponseEntity<CustomerResponseDTO> editCustomer(@PathVariable UUID customerId, @RequestBody @Valid CustomerRequestDTO request) {
         CustomerResponseDTO response = service.editCustomer(customerId, request);
 
         return ResponseEntity.status(HttpStatus.OK).body(response);
