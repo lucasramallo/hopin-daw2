@@ -7,6 +7,7 @@ import br.edu.ifpb.hopin_daw2.core.domain.customer.exceptions.CustomerNotFoundEx
 import br.edu.ifpb.hopin_daw2.core.domain.driver.Driver;
 import br.edu.ifpb.hopin_daw2.core.domain.driver.exceptions.DriverNotFoundException;
 import br.edu.ifpb.hopin_daw2.core.domain.rating.Rating;
+import br.edu.ifpb.hopin_daw2.core.domain.rating.exceptions.RatingNotFound;
 import br.edu.ifpb.hopin_daw2.core.domain.trips.Trip;
 import br.edu.ifpb.hopin_daw2.core.domain.trips.exceprions.TripNotFoundException;
 import br.edu.ifpb.hopin_daw2.data.jpa.CustomerRepository;
@@ -68,5 +69,11 @@ public class RatingService {
                 rating.getRating(),
                 rating.getFeedback()
         );
+    }
+
+    public void delete(UUID tripId) {
+        Optional<Rating> rating = ratingRepository.findByTripId(tripId);
+
+        rating.ifPresent(value -> ratingRepository.delete(value));
     }
 }

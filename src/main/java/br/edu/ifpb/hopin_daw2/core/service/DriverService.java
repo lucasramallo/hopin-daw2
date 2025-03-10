@@ -14,15 +14,13 @@ import br.edu.ifpb.hopin_daw2.data.jpa.TripRepository;
 import br.edu.ifpb.hopin_daw2.data.jpa.UserRepository;
 import br.edu.ifpb.hopin_daw2.mappers.TripMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 @Service
 public class DriverService {
@@ -87,18 +85,16 @@ public class DriverService {
         );
     }
 
-    public List<TripResponseDTO> getTripsHistory(UUID driverId, int page,  int size) {
+    public Page<TripResponseDTO> getTripsHistory(UUID driverId, int page, int size) {
         Optional<Driver> driver = repository.findById(driverId);
 
         if(driver.isEmpty()) {
             throw new DriverNotFoundException();
         }
 
-        ArrayList<Trip> trips = tripRepository.findAllByDriverId(driver.get().getId(), PageRequest.of(page, size));
+        Page<Trip> trips = tripRepository.findAllByDriverId(driver.get().getId(), PageRequest.of(page, size));
 
-        return trips.stream()
-                .map(TripMapper::toDTO)
-                .collect(Collectors.toList());
+        return trips.map(TripMapper::toDTO);
     }
 
     public DriverResponseDTO editDriver(UUID id, EditDriverRequestDTO requestDTO) {

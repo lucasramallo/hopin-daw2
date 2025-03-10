@@ -5,6 +5,7 @@ import br.edu.ifpb.hopin_daw2.api.dto.*;
 import br.edu.ifpb.hopin_daw2.core.service.DriverService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -28,12 +29,12 @@ public class DriverController implements DriverControllerApi {
 
     @GetMapping("/{driverId}/getTripsHistory")
     @PreAuthorize("hasAnyRole('DRIVER')")
-    public ResponseEntity<List<TripResponseDTO>> getTripsHistory(
+    public ResponseEntity<Page<TripResponseDTO>> getTripsHistory(
             @PathVariable UUID driverId,
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size
     ) {
-        List<TripResponseDTO> trips = service.getTripsHistory(driverId, page, size);
+        Page<TripResponseDTO> trips = service.getTripsHistory(driverId, page, size);
 
         return ResponseEntity.status(HttpStatus.OK).body(trips);
     }

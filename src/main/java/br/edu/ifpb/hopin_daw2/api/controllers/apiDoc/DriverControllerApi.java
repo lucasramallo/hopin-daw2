@@ -8,6 +8,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 
 import java.util.List;
@@ -43,7 +44,7 @@ public interface DriverControllerApi {
                     description = "Driver not found!",
                     content = @Content(mediaType = "application/json")),
     })
-    ResponseEntity<List<TripResponseDTO>> getTripsHistory(@Parameter(description = "ID do motorista")
+    ResponseEntity<Page<TripResponseDTO>> getTripsHistory(@Parameter(description = "ID do motorista")
                                                           UUID driverId,
                                                           @Parameter(description = "Número da página")
                                                           int page,

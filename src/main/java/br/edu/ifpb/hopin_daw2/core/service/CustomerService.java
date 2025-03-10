@@ -10,6 +10,7 @@ import br.edu.ifpb.hopin_daw2.core.domain.role.Role;
 import br.edu.ifpb.hopin_daw2.core.domain.trips.Trip;
 import br.edu.ifpb.hopin_daw2.core.domain.user.util.UserValidations;
 import br.edu.ifpb.hopin_daw2.data.jpa.CustomerRepository;
+import br.edu.ifpb.hopin_daw2.data.jpa.TripRepository;
 import br.edu.ifpb.hopin_daw2.data.jpa.UserRepository;
 import br.edu.ifpb.hopin_daw2.mappers.CustomerMapper;
 import br.edu.ifpb.hopin_daw2.mappers.TripMapper;
@@ -29,6 +30,9 @@ public class CustomerService {
 
     @Autowired
     private CustomerRepository customerRepository;
+
+    @Autowired
+    private TripRepository tripRepository;
 
     @Autowired
     private CustomerMapper customerMapper;
@@ -76,7 +80,7 @@ public class CustomerService {
     }
 
     public Page<TripResponseDTO> getTripsHistory(UUID customerId, Integer page, Integer size) {
-        Page<Trip> trips = customerRepository.getTripsHistory(customerId, PageRequest.of(page, size));
+        Page<Trip> trips = tripRepository.findAllByCustomerId(customerId, PageRequest.of(page, size));
 
         return trips.map(TripMapper::toDTO);
     }

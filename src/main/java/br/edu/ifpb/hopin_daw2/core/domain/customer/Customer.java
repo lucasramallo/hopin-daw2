@@ -1,13 +1,16 @@
 package br.edu.ifpb.hopin_daw2.core.domain.customer;
 
+import br.edu.ifpb.hopin_daw2.core.domain.rating.Rating;
+import br.edu.ifpb.hopin_daw2.core.domain.trips.Trip;
 import br.edu.ifpb.hopin_daw2.core.domain.user.User;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Data
 @NoArgsConstructor
@@ -24,4 +27,7 @@ public class Customer extends User {
 
     @Column(name = "credit_card_cvv")
     private String creditCardCVV;
+
+    @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Trip> trips = new ArrayList<>();
 }
