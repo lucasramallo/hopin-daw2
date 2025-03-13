@@ -83,6 +83,12 @@ public class TripService {
             throw new TripNotFoundException();
         }
 
+        String loggedUser = (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+        if(!trip.get().getCustomer().getEmail().equals(loggedUser)){
+            throw new PermissionDeniedException();
+        }
+
         return TripMapper.toDTO(trip.get());
     }
 

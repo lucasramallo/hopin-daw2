@@ -8,6 +8,7 @@ import br.edu.ifpb.hopin_daw2.core.domain.customer.exceptions.CustomerNotFoundEx
 import br.edu.ifpb.hopin_daw2.core.domain.customer.util.CustomerValidations;
 import br.edu.ifpb.hopin_daw2.core.domain.role.Role;
 import br.edu.ifpb.hopin_daw2.core.domain.trips.Trip;
+import br.edu.ifpb.hopin_daw2.core.domain.user.exceptions.PermissionDeniedException;
 import br.edu.ifpb.hopin_daw2.core.domain.user.util.UserValidations;
 import br.edu.ifpb.hopin_daw2.data.jpa.CustomerRepository;
 import br.edu.ifpb.hopin_daw2.data.jpa.TripRepository;
@@ -83,6 +84,15 @@ public class CustomerService {
     public Page<TripResponseDTO> getTripsHistory(Integer page, Integer size) {
         String loggedUser = (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         Optional<Customer> customer = customerRepository.findByEmail(loggedUser);
+
+        if (customer.isEmpty()) {
+            throw new CustomerNotFoundException();
+        }
+
+        if(!customer.get().getEmail().equals(loggedUser)){
+            throw new PermissionDeniedException();
+        }
+
         Page<Trip> trips = tripRepository.findAllByCustomerId(customer.get().getId(), PageRequest.of(page, size));
 
         return trips.map(TripMapper::toDTO);
@@ -95,6 +105,10 @@ public class CustomerService {
 
         if (customer.isEmpty()) {
             throw new CustomerNotFoundException();
+        }
+
+        if(!customer.get().getEmail().equals(loggedUser)){
+            throw new PermissionDeniedException();
         }
 
         Customer customerFound = customer.get();
@@ -116,6 +130,12 @@ public class CustomerService {
 
         if (customer.isEmpty()) {
             throw new CustomerNotFoundException();
+        }
+
+        String loggedUser = (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+        if(!customer.get().getEmail().equals(loggedUser)){
+            throw new PermissionDeniedException();
         }
 
         customerRepository.delete(customer.get());

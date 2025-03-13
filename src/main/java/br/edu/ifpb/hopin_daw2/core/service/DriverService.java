@@ -9,6 +9,7 @@ import br.edu.ifpb.hopin_daw2.core.domain.driver.util.DriverValidations;
 import br.edu.ifpb.hopin_daw2.core.domain.role.Role;
 import br.edu.ifpb.hopin_daw2.core.domain.trips.Trip;
 import br.edu.ifpb.hopin_daw2.core.domain.user.User;
+import br.edu.ifpb.hopin_daw2.core.domain.user.exceptions.PermissionDeniedException;
 import br.edu.ifpb.hopin_daw2.core.domain.user.util.UserValidations;
 import br.edu.ifpb.hopin_daw2.data.jpa.DriverRepository;
 import br.edu.ifpb.hopin_daw2.data.jpa.TripRepository;
@@ -95,6 +96,10 @@ public class DriverService {
             throw new DriverNotFoundException();
         }
 
+        if(!driver.get().getEmail().equals(loggedUser)){
+            throw new PermissionDeniedException();
+        }
+
         Page<Trip> trips = tripRepository.findAllByDriverId(driver.get().getId(), PageRequest.of(page, size));
 
         return trips.map(TripMapper::toDTO);
@@ -111,6 +116,10 @@ public class DriverService {
 
         if(driver.isEmpty()) {
             throw new DriverNotFoundException();
+        }
+
+        if(!driver.get().getEmail().equals(loggedUser)){
+            throw new PermissionDeniedException();
         }
 
         Driver driverToEdit = driver.get();
@@ -154,6 +163,12 @@ public class DriverService {
 
         if(driverFound.isEmpty()) {
             throw new DriverNotFoundException();
+        }
+
+        String loggedUser = (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+        if(!driverFound.get().getEmail().equals(loggedUser)){
+            throw new PermissionDeniedException();
         }
 
         repository.delete(driverFound.get());
