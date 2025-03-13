@@ -2,14 +2,16 @@ package br.edu.ifpb.hopin_daw2.api.config;
 
 import br.edu.ifpb.hopin_daw2.core.domain.cab.exceptions.CabNotFoundException;
 import br.edu.ifpb.hopin_daw2.core.domain.payments.exceptions.NoCreditCardInfo;
-import br.edu.ifpb.hopin_daw2.core.domain.rating.exceptions.RatingNotFoundExcertion;
+import br.edu.ifpb.hopin_daw2.core.domain.rating.exceptions.RatingNotFoundException;
+import br.edu.ifpb.hopin_daw2.core.domain.trips.exceptions.InvalidTripStatusUpdateException;
 import br.edu.ifpb.hopin_daw2.core.domain.user.exceptions.EmailAlreadyRegisteredException;
 import br.edu.ifpb.hopin_daw2.core.domain.cab.exceptions.InvalidPlateException;
 import br.edu.ifpb.hopin_daw2.core.domain.customer.exceptions.CustomerNotFoundException;
 import br.edu.ifpb.hopin_daw2.core.domain.driver.exceptions.DriverNotFoundException;
 import br.edu.ifpb.hopin_daw2.core.domain.driver.exceptions.UnderageDriverException;
 import br.edu.ifpb.hopin_daw2.api.globalExceptions.*;
-import br.edu.ifpb.hopin_daw2.core.domain.trips.exceprions.TripNotFoundException;
+import br.edu.ifpb.hopin_daw2.core.domain.trips.exceptions.TripNotFoundException;
+import br.edu.ifpb.hopin_daw2.core.domain.user.exceptions.PermissionDeniedException;
 import org.springframework.http.*;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.AuthenticationException;
@@ -41,12 +43,14 @@ public class ExceptionsHandler extends ResponseEntityExceptionHandler {
         INVALID_CREDENTIALS,
         INVALID_USER_NAME,
         INVALID_USER_EMAIL,
+        INVALID_TRIP_STATUS_UPDATE,
         AUTHENTICATION_ERROR,
         REQUIRED_FIELDS_NOT_FILLED,
         INVALID_TOKEN,
         UNDERAGE_DRIVER_ERROR,
         INVALID_CAB_PLATE,
         ACCES_DENIED,
+        PERMISSION_DENIED,
         NO_CREDIT_CARD_INFO;
     }
 
@@ -89,6 +93,11 @@ public class ExceptionsHandler extends ResponseEntityExceptionHandler {
     @ExceptionHandler(AccessDeniedException.class)
     public ProblemDetail handleAuthenticationException(AccessDeniedException e) {
         return buildProblemDetail(e, HttpStatus.FORBIDDEN, ErrorType.ACCES_DENIED);
+    }
+
+    @ExceptionHandler(PermissionDeniedException.class)
+    public ProblemDetail handleAuthenticationException(PermissionDeniedException e) {
+        return buildProblemDetail(e, HttpStatus.FORBIDDEN, ErrorType.PERMISSION_DENIED);
     }
 
     @ExceptionHandler(AuthenticationException.class)
@@ -137,9 +146,14 @@ public class ExceptionsHandler extends ResponseEntityExceptionHandler {
         return buildProblemDetail(e, HttpStatus.NOT_FOUND, ErrorType.TRIP_NOT_FOUND);
     }
 
+    @ExceptionHandler(InvalidTripStatusUpdateException.class)
+    public ProblemDetail handleTripNotFound(InvalidTripStatusUpdateException e) {
+        return buildProblemDetail(e, HttpStatus.BAD_REQUEST, ErrorType.INVALID_TRIP_STATUS_UPDATE);
+    }
+
     // Rating
-    @ExceptionHandler(RatingNotFoundExcertion.class)
-    public ProblemDetail handleTripNotFound(RatingNotFoundExcertion e) {
+    @ExceptionHandler(RatingNotFoundException.class)
+    public ProblemDetail handleTripNotFound(RatingNotFoundException e) {
         return buildProblemDetail(e, HttpStatus.NOT_FOUND, ErrorType.RATING_NOT_FOUND);
     }
 

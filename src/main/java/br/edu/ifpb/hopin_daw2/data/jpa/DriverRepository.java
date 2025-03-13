@@ -13,4 +13,5 @@ import java.util.UUID;
 public interface DriverRepository extends JpaRepository<Driver, UUID> {
     @Query("SELECT d.cab FROM drivers d WHERE d.id = :driverId")
     Optional<Cab> findCabByDriverId(UUID driverId);
+    Optional<Driver> findByEmail(String email);
 }

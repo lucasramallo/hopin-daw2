@@ -4,9 +4,9 @@ import br.edu.ifpb.hopin_daw2.api.controllers.apiDoc.TripControllerApi;
 import br.edu.ifpb.hopin_daw2.api.dto.*;
 import br.edu.ifpb.hopin_daw2.core.domain.trips.Status;
 import br.edu.ifpb.hopin_daw2.core.service.TripService;
+import io.swagger.v3.oas.annotations.Parameter;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -35,9 +35,33 @@ public class TripController implements TripControllerApi {
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
-    @PatchMapping("/{tripId}/editStatus")
-    public ResponseEntity<TripResponseDTO> editTripStatus(@PathVariable UUID tripId, @RequestBody Status status) {
-        TripResponseDTO response = service.editTripStatus(tripId, status);
+    @PreAuthorize("hasAnyRole('DRIVER')")
+    @PatchMapping("/{tripId}/accept")
+    public ResponseEntity<TripResponseDTO> acceptTrip(@PathVariable UUID tripId) {
+        TripResponseDTO response = service.editTripStatus(tripId, Status.ACCEPTED);
+
+        return ResponseEntity.status(HttpStatus.OK).body(response);
+    }
+
+    @PatchMapping("/{tripId}/cancel")
+    public ResponseEntity<TripResponseDTO> cancelTrip(@PathVariable UUID tripId) {
+        TripResponseDTO response = service.editTripStatus(tripId, Status.CANCELLED);
+
+        return ResponseEntity.status(HttpStatus.OK).body(response);
+    }
+
+    @PreAuthorize("hasAnyRole('DRIVER')")
+    @PatchMapping("/{tripId}/start")
+    public ResponseEntity<TripResponseDTO> startTrip(@PathVariable UUID tripId) {
+        TripResponseDTO response = service.editTripStatus(tripId, Status.STARTED);
+
+        return ResponseEntity.status(HttpStatus.OK).body(response);
+    }
+
+    @PreAuthorize("hasAnyRole('DRIVER')")
+    @PatchMapping("/{tripId}/complete")
+    public ResponseEntity<TripResponseDTO> completeTrip(@PathVariable UUID tripId) {
+        TripResponseDTO response = service.editTripStatus(tripId, Status.COMPLETED);
 
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }

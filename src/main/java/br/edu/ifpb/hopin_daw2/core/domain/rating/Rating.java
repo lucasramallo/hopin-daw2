@@ -6,6 +6,8 @@ import br.edu.ifpb.hopin_daw2.core.domain.trips.Trip;
 import jakarta.persistence.*;
 
 import lombok.Data;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import java.util.UUID;
 
@@ -17,16 +19,19 @@ public class Rating {
     @Column
     private UUID id;
 
-    @ManyToOne(cascade = CascadeType.REMOVE)
+    @ManyToOne
     @JoinColumn(name = "customer_id", nullable = false)
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private Customer customer;
 
-    @ManyToOne(cascade = CascadeType.REMOVE)
+    @ManyToOne
     @JoinColumn(name = "driver_id", nullable = false)
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private Driver driver;
 
-    @OneToOne(cascade = CascadeType.REMOVE)
+    @OneToOne
     @JoinColumn(name = "trip_id", nullable = false)
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private Trip trip;
 
     @Column(nullable = false)

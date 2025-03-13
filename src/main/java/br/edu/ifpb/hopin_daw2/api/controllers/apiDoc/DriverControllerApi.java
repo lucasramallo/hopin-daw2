@@ -44,9 +44,7 @@ public interface DriverControllerApi {
                     description = "Driver not found!",
                     content = @Content(mediaType = "application/json")),
     })
-    ResponseEntity<Page<TripResponseDTO>> getTripsHistory(@Parameter(description = "ID do motorista")
-                                                          UUID driverId,
-                                                          @Parameter(description = "Número da página")
+    ResponseEntity<Page<TripResponseDTO>> getTripsHistory(@Parameter(description = "Número da página")
                                                           int page,
                                                           @Parameter(description = "Número de itens por página")
                                                           int size);
@@ -81,9 +79,7 @@ public interface DriverControllerApi {
                     description = "Driver not found!",
                     content = @Content(mediaType = "application/json")),
     })
-    ResponseEntity<DriverResponseDTO> editDriver(@Parameter(description = "ID do motorista")
-                                                 UUID driverId,
-                                                 @Parameter(description = "Dados atualizados do motorista")
+    ResponseEntity<DriverResponseDTO> editDriver(@Parameter(description = "Dados atualizados do motorista")
                                                  EditDriverRequestDTO request);
 
     @Operation(summary = "Excluir um motorista",

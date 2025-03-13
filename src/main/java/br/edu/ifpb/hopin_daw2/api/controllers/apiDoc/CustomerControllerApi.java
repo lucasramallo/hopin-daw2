@@ -60,9 +60,7 @@ public interface CustomerControllerApi {
                     description = "Customer not found!",
                     content = @Content(mediaType = "application/json")),
     })
-    ResponseEntity<Page<TripResponseDTO>> getTripsHistory(@Parameter(description = "ID do cliente")
-                                                          UUID customerId,
-                                                          @Parameter(description = "Número da página")
+    ResponseEntity<Page<TripResponseDTO>> getTripsHistory(@Parameter(description = "Número da página")
                                                           int page,
                                                           @Parameter(description = "Número de itens por página")
                                                           int size);
@@ -79,9 +77,7 @@ public interface CustomerControllerApi {
                     description = "Customer not found!",
                     content = @Content(mediaType = "application/json")),
     })
-    ResponseEntity<CustomerResponseDTO> editCustomer(@Parameter(description = "ID do cliente")
-                                                     UUID customerId,
-                                                     @Parameter(description = "Dados atualizados do cliente")
+    ResponseEntity<CustomerResponseDTO> editCustomer(@Parameter(description = "Dados atualizados do cliente")
                                                      CustomerRequestDTO request);
 
     @Operation(summary = "Excluir um cliente",

@@ -11,16 +11,12 @@ import java.util.UUID;
 
 public record TripRequestDTO(
         @NotNull
-        UUID customerId,
-        @NotNull
         UUID driverId,
         @NotNull
         Method paymentMethod,
         @NotNull
         @DecimalMin(value = "0.01")
         BigDecimal paymentAmount,
-        @NotNull
-        Status status,
         @NotBlank
         String origin,
         @NotBlank

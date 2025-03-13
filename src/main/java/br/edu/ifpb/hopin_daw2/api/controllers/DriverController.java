@@ -11,7 +11,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 import java.util.UUID;
 
 @RestController
@@ -27,14 +26,13 @@ public class DriverController implements DriverControllerApi {
         return ResponseEntity.status(HttpStatus.OK).body(reponse);
     }
 
-    @GetMapping("/{driverId}/getTripsHistory")
+    @GetMapping("/getTripsHistory")
     @PreAuthorize("hasAnyRole('DRIVER')")
     public ResponseEntity<Page<TripResponseDTO>> getTripsHistory(
-            @PathVariable UUID driverId,
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size
     ) {
-        Page<TripResponseDTO> trips = service.getTripsHistory(driverId, page, size);
+        Page<TripResponseDTO> trips = service.getTripsHistory(page, size);
 
         return ResponseEntity.status(HttpStatus.OK).body(trips);
     }
@@ -46,10 +44,10 @@ public class DriverController implements DriverControllerApi {
         return ResponseEntity.status(HttpStatus.OK).body(cab);
     }
 
-    @PutMapping("/{driverId}")
+    @PutMapping
     @PreAuthorize("hasAnyRole('DRIVER')")
-    public ResponseEntity<DriverResponseDTO> editDriver(@PathVariable UUID driverId, @RequestBody @Valid EditDriverRequestDTO request) {
-        DriverResponseDTO reponse = service.editDriver(driverId, request);
+    public ResponseEntity<DriverResponseDTO> editDriver(@RequestBody @Valid EditDriverRequestDTO request) {
+        DriverResponseDTO reponse = service.editDriver(request);
 
         return ResponseEntity.status(HttpStatus.OK).body(reponse);
     }

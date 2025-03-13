@@ -49,8 +49,8 @@ public interface TripControllerApi {
     ResponseEntity<TripResponseDTO> getTripById(@Parameter(description = "ID da viagem a ser recuperada")
                                                 UUID tripId);
 
-    @Operation(summary = "Editar o status de uma viagem",
-            description = "Permite editar o status de uma viagem existente.",
+    @Operation(summary = "Editar o status de uma viagem para ACCEPTED",
+            description = "Permite editar o status de uma viagem existente para ACCEPTED.",
             tags = { "trip" })
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200",
@@ -61,9 +61,52 @@ public interface TripControllerApi {
                     description = "Viagem não encontrada.",
                     content = @Content(mediaType = "application/json")),
     })
-    ResponseEntity<TripResponseDTO> editTripStatus(@Parameter(description = "ID da viagem")
-                                                   UUID tripId,
-                                                   @Parameter(description = "Novo status da viagem")
-                                                   Status status);
+    ResponseEntity<TripResponseDTO> acceptTrip(@Parameter(description = "ID da viagem")
+                                                   UUID tripId);
+
+    @Operation(summary = "Editar o status de uma viagem para CANCELLED",
+            description = "Permite editar o status de uma viagem existente para CANCELLED.",
+            tags = { "trip" })
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200",
+                    description = "Status da viagem editado com sucesso.",
+                    content = @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = TripResponseDTO.class))),
+            @ApiResponse(responseCode = "404",
+                    description = "Viagem não encontrada.",
+                    content = @Content(mediaType = "application/json")),
+    })
+    ResponseEntity<TripResponseDTO> cancelTrip(@Parameter(description = "ID da viagem")
+                                                   UUID tripId);
+
+    @Operation(summary = "Editar o status de uma viagem para STARTED",
+            description = "Permite editar o status de uma viagem existente para STARTED.",
+            tags = { "trip" })
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200",
+                    description = "Status da viagem editado com sucesso.",
+                    content = @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = TripResponseDTO.class))),
+            @ApiResponse(responseCode = "404",
+                    description = "Viagem não encontrada.",
+                    content = @Content(mediaType = "application/json")),
+    })
+    ResponseEntity<TripResponseDTO> startTrip(@Parameter(description = "ID da viagem")
+                                                   UUID tripId);
+
+    @Operation(summary = "Editar o status de uma viagem para COMPLETED",
+            description = "Permite editar o status de uma viagem existente para COMPLETED.",
+            tags = { "trip" })
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200",
+                    description = "Status da viagem editado com sucesso.",
+                    content = @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = TripResponseDTO.class))),
+            @ApiResponse(responseCode = "404",
+                    description = "Viagem não encontrada.",
+                    content = @Content(mediaType = "application/json")),
+    })
+    ResponseEntity<TripResponseDTO> completeTrip(@Parameter(description = "ID da viagem")
+                                                   UUID tripId);
 }
 

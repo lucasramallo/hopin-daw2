@@ -17,6 +17,7 @@ import br.edu.ifpb.hopin_daw2.mappers.TripMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -79,14 +80,17 @@ public class CustomerService {
         return customerMapper.toDTO(customer.get());
     }
 
-    public Page<TripResponseDTO> getTripsHistory(UUID customerId, Integer page, Integer size) {
-        Page<Trip> trips = tripRepository.findAllByCustomerId(customerId, PageRequest.of(page, size));
+    public Page<TripResponseDTO> getTripsHistory(Integer page, Integer size) {
+        String loggedUser = (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        Optional<Customer> customer = customerRepository.findByEmail(loggedUser);
+        Page<Trip> trips = tripRepository.findAllByCustomerId(customer.get().getId(), PageRequest.of(page, size));
 
         return trips.map(TripMapper::toDTO);
     }
 
-    public CustomerResponseDTO editCustomer(UUID id, CustomerRequestDTO dto) {
-        Optional<Customer> customer = customerRepository.findById(id);
+    public CustomerResponseDTO editCustomer(CustomerRequestDTO dto) {
+        String loggedUser = (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        Optional<Customer> customer = customerRepository.findByEmail(loggedUser);
         UserValidations.validateEmail(dto.email());
 
         if (customer.isEmpty()) {
@@ -113,8 +117,6 @@ public class CustomerService {
         if (customer.isEmpty()) {
             throw new CustomerNotFoundException();
         }
-
-        tripRepository.deleteAll(getTripsHistory(id, 0, 100).stream().);
 
         customerRepository.delete(customer.get());
     }

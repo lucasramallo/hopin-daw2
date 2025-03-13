@@ -8,6 +8,7 @@ import br.edu.ifpb.hopin_daw2.core.domain.driver.exceptions.DriverNotFoundExcept
 import br.edu.ifpb.hopin_daw2.core.domain.driver.util.DriverValidations;
 import br.edu.ifpb.hopin_daw2.core.domain.role.Role;
 import br.edu.ifpb.hopin_daw2.core.domain.trips.Trip;
+import br.edu.ifpb.hopin_daw2.core.domain.user.User;
 import br.edu.ifpb.hopin_daw2.core.domain.user.util.UserValidations;
 import br.edu.ifpb.hopin_daw2.data.jpa.DriverRepository;
 import br.edu.ifpb.hopin_daw2.data.jpa.TripRepository;
@@ -16,6 +17,7 @@ import br.edu.ifpb.hopin_daw2.mappers.TripMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -85,8 +87,9 @@ public class DriverService {
         );
     }
 
-    public Page<TripResponseDTO> getTripsHistory(UUID driverId, int page, int size) {
-        Optional<Driver> driver = repository.findById(driverId);
+    public Page<TripResponseDTO> getTripsHistory(int page, int size) {
+        String loggedUser = (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        Optional<Driver> driver = repository.findByEmail(loggedUser);
 
         if(driver.isEmpty()) {
             throw new DriverNotFoundException();
@@ -97,12 +100,14 @@ public class DriverService {
         return trips.map(TripMapper::toDTO);
     }
 
-    public DriverResponseDTO editDriver(UUID id, EditDriverRequestDTO requestDTO) {
+    public DriverResponseDTO editDriver(EditDriverRequestDTO requestDTO) {
         DriverValidations.validateName(requestDTO.name());
         DriverValidations.validateAge(requestDTO.dateOfBirth());
         UserValidations.validateEmail(requestDTO.email());
 
-        Optional<Driver> driver = repository.findById(id);
+        String loggedUser = (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+        Optional<Driver> driver = repository.findByEmail(loggedUser);
 
         if(driver.isEmpty()) {
             throw new DriverNotFoundException();
@@ -113,7 +118,7 @@ public class DriverService {
         Cab cab = cabService.editCab(requestDTO);
 
         driverToEdit.setName(requestDTO.name());
-        driverToEdit.setEmail(requestDTO.email());
+        driverToEdit.setEmail(loggedUser);
         driverToEdit.setDateOfBirth(requestDTO.dateOfBirth());
         driverToEdit.setCab(cab);
 

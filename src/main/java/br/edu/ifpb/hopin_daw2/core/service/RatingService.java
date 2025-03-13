@@ -8,16 +8,18 @@ import br.edu.ifpb.hopin_daw2.core.domain.customer.exceptions.CustomerNotFoundEx
 import br.edu.ifpb.hopin_daw2.core.domain.driver.Driver;
 import br.edu.ifpb.hopin_daw2.core.domain.driver.exceptions.DriverNotFoundException;
 import br.edu.ifpb.hopin_daw2.core.domain.rating.Rating;
-import br.edu.ifpb.hopin_daw2.core.domain.rating.exceptions.RatingNotFoundExcertion;
+import br.edu.ifpb.hopin_daw2.core.domain.rating.exceptions.RatingNotFoundException;
 import br.edu.ifpb.hopin_daw2.core.domain.rating.util.RatingMapper;
-import br.edu.ifpb.hopin_daw2.core.domain.rating.exceptions.RatingNotFound;
 import br.edu.ifpb.hopin_daw2.core.domain.trips.Trip;
-import br.edu.ifpb.hopin_daw2.core.domain.trips.exceprions.TripNotFoundException;
+import br.edu.ifpb.hopin_daw2.core.domain.trips.exceptions.TripNotFoundException;
+import br.edu.ifpb.hopin_daw2.core.domain.user.User;
+import br.edu.ifpb.hopin_daw2.core.domain.user.exceptions.PermissionDeniedException;
 import br.edu.ifpb.hopin_daw2.data.jpa.CustomerRepository;
 import br.edu.ifpb.hopin_daw2.data.jpa.DriverRepository;
 import br.edu.ifpb.hopin_daw2.data.jpa.RatingRepository;
 import br.edu.ifpb.hopin_daw2.data.jpa.TripRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -44,7 +46,9 @@ public class RatingService {
             throw new DriverNotFoundException();
         }
 
-        Optional<Customer> customerFound = customerRepository.findById(requestDTO.customerId());
+        String loggedUser = (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+        Optional<Customer> customerFound = customerRepository.findByEmail(loggedUser);
         if(customerFound.isEmpty()) {
             throw new CustomerNotFoundException();
         }
@@ -62,9 +66,7 @@ public class RatingService {
         rating.setRating(requestDTO.rating());
         rating.setFeedback(requestDTO.feedback());
 
-        tripFound.get().setRating(rating);
-
-        tripRepository.save(tripFound.get());
+        ratingRepository.save(rating);
 
         return new RatingResponseDTO(
                 rating.getId(),
@@ -80,7 +82,13 @@ public class RatingService {
         Optional<Rating> rating = ratingRepository.findById(ratingId);
 
         if(rating.isEmpty()) {
-            throw new RatingNotFoundExcertion("Rating not found!");
+            throw new RatingNotFoundException("Rating not found!");
+        }
+
+        String loggedUser = (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+        if(!rating.get().getCustomer().getEmail().equals(loggedUser)){
+            throw new PermissionDeniedException();
         }
 
         rating.get().setRating(requestDTO.rating());

@@ -35,18 +35,18 @@ public class CustomerController implements CustomerControllerApi {
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
-    @GetMapping("/{customerId}/getTripsHistory")
+    @GetMapping("/getTripsHistory")
     @PreAuthorize("hasAnyRole('CUSTOMER')")
-    public ResponseEntity<Page<TripResponseDTO>> getTripsHistory(@PathVariable UUID customerId, @RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "5") int size) {
-        Page<TripResponseDTO> trips = service.getTripsHistory(customerId, page, size);
+    public ResponseEntity<Page<TripResponseDTO>> getTripsHistory(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "5") int size) {
+        Page<TripResponseDTO> trips = service.getTripsHistory(page, size);
 
         return ResponseEntity.status(HttpStatus.OK).body(trips);
     }
 
-    @PutMapping("/{customerId}")
+    @PutMapping()
     @PreAuthorize("hasAnyRole('CUSTOMER')")
-    public ResponseEntity<CustomerResponseDTO> editCustomer(@PathVariable UUID customerId, @RequestBody @Valid CustomerRequestDTO request) {
-        CustomerResponseDTO response = service.editCustomer(customerId, request);
+    public ResponseEntity<CustomerResponseDTO> editCustomer(@RequestBody @Valid CustomerRequestDTO request) {
+        CustomerResponseDTO response = service.editCustomer(request);
 
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
