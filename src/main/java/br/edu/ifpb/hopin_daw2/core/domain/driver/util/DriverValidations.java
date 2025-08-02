@@ -10,7 +10,7 @@ import java.util.regex.Pattern;
 
 public class DriverValidations {
     public static void validateName(String name) {
-        Pattern pattern = Pattern.compile("^[A-ZÀ-ÿ][A-Za-zÀ-ÿ ]{5,50}$");
+        Pattern pattern = Pattern.compile("^[A-Za-zÀ-ÿ ]{3,50}$");
         Matcher matcher = pattern.matcher(name);
 
         if (!matcher.matches()) {

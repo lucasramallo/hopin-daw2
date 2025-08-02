@@ -7,6 +7,7 @@ import br.edu.ifpb.hopin_daw2.core.domain.driver.Driver;
 import br.edu.ifpb.hopin_daw2.core.domain.driver.exceptions.DriverNotFoundException;
 import br.edu.ifpb.hopin_daw2.core.domain.driver.util.DriverValidations;
 import br.edu.ifpb.hopin_daw2.core.domain.role.Role;
+import br.edu.ifpb.hopin_daw2.core.domain.trips.Status;
 import br.edu.ifpb.hopin_daw2.core.domain.trips.Trip;
 import br.edu.ifpb.hopin_daw2.core.domain.user.User;
 import br.edu.ifpb.hopin_daw2.core.domain.user.exceptions.PermissionDeniedException;
@@ -42,7 +43,7 @@ public class DriverService {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
-    public DriverResponseDTO createDriver(CreateDriverRequestDTO requestDTO) {
+    public Driver createDriver(CreateDriverRequestDTO requestDTO) {
         DriverValidations.validateName(requestDTO.name());
         UserValidations.validateEmail(requestDTO.email());
         DriverValidations.validateAge(requestDTO.dateOfBirth());
@@ -53,6 +54,9 @@ public class DriverService {
         driver.setEmail(requestDTO.email());
         driver.setPassword(passwordEncoder.encode(requestDTO.password()));
         driver.setDateOfBirth(requestDTO.dateOfBirth());
+        driver.setBank(requestDTO.bank());
+        driver.setBankAccount(requestDTO.bankAccount());
+        driver.setBankBranch(requestDTO.bankBranch());
         driver.setRole(Role.DRIVER);
 
         Cab cab = cabService.createCab(requestDTO);
@@ -61,14 +65,7 @@ public class DriverService {
 
         repository.save(driver);
 
-        return new DriverResponseDTO(
-                driver.getId(),
-                driver.getName(),
-                driver.getEmail(),
-                driver.getDateOfBirth(),
-                driver.getCab(),
-                driver.getCreatedAt()
-        );
+        return driver;
     }
 
     public DriverResponseDTO getDriverById(UUID id) {
@@ -88,6 +85,16 @@ public class DriverService {
         );
     }
 
+    public Driver getDriverByEmail(String email) {
+        Optional<Driver> driverFound = repository.findByEmail(email);
+
+        if(driverFound.isEmpty()) {
+            throw new DriverNotFoundException();
+        }
+
+        return driverFound.get();
+    }
+
     public Page<TripResponseDTO> getTripsHistory(int page, int size) {
         String loggedUser = (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         Optional<Driver> driver = repository.findByEmail(loggedUser);
@@ -103,6 +110,10 @@ public class DriverService {
         Page<Trip> trips = tripRepository.findAllByDriverId(driver.get().getId(), PageRequest.of(page, size));
 
         return trips.map(TripMapper::toDTO);
+    }
+
+    public Page<TripResponseDTO> getTripsRequests(UUID driverId, int page, int size) {
+        return tripRepository.findAllByDriverIdAndStatus(driverId, Status.REQUESTED, PageRequest.of(page, size)).map(TripMapper::toDTO);
     }
 
     public DriverResponseDTO editDriver(EditDriverRequestDTO requestDTO) {

@@ -1,6 +1,7 @@
 package br.edu.ifpb.hopin_daw2.api.controllers.apiDoc;
 
 import br.edu.ifpb.hopin_daw2.api.dto.*;
+import br.edu.ifpb.hopin_daw2.core.domain.driver.Driver;
 import org.springframework.http.ProblemDetail;
 import org.springframework.http.ResponseEntity;
 import io.swagger.v3.oas.annotations.Operation;
@@ -51,7 +52,7 @@ public interface AuthControllerApi {
                     content = @Content(mediaType = "application/json",
                             schema = @Schema(implementation = ProblemDetail.class))),
     })
-    ResponseEntity<DriverResponseDTO> createDriver(@Parameter(description = "Dados para criação do motorista")
+    ResponseEntity<Driver> createDriver(@Parameter(description = "Dados para criação do motorista")
                                                    CreateDriverRequestDTO request);
 
     @Operation(summary = "Registrar um cliente",

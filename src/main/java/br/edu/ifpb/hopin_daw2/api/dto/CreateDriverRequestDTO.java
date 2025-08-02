@@ -1,5 +1,6 @@
 package br.edu.ifpb.hopin_daw2.api.dto;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
@@ -13,12 +14,19 @@ public record CreateDriverRequestDTO(
         @NotBlank
         String password,
         @NotNull
+        @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy")
         LocalDate dateOfBirth,
         @NotBlank
         String model,
         @NotBlank
         String color,
         @NotBlank
-        String plateNum
+        String plateNum,
+        @NotBlank
+        String bank,
+        @NotBlank
+        String bankBranch,
+        @NotBlank
+        String bankAccount
 ) {
 }

@@ -3,6 +3,7 @@ package br.edu.ifpb.hopin_daw2.api.controllers;
 import br.edu.ifpb.hopin_daw2.api.controllers.apiDoc.AuthControllerApi;
 import br.edu.ifpb.hopin_daw2.api.dto.*;
 import br.edu.ifpb.hopin_daw2.api.security.util.JwtProvider;
+import br.edu.ifpb.hopin_daw2.core.domain.driver.Driver;
 import br.edu.ifpb.hopin_daw2.core.domain.user.User;
 import br.edu.ifpb.hopin_daw2.core.service.CustomerService;
 import br.edu.ifpb.hopin_daw2.core.service.DriverService;
@@ -57,8 +58,8 @@ public class AuthController implements AuthControllerApi {
     }
 
     @PostMapping("/driver/register")
-    public ResponseEntity<DriverResponseDTO> createDriver(@RequestBody @Valid CreateDriverRequestDTO request) {
-        DriverResponseDTO reponse = driverService.createDriver(request);
+    public ResponseEntity<Driver> createDriver(@RequestBody @Valid CreateDriverRequestDTO request) {
+        Driver reponse = driverService.createDriver(request);
 
         return ResponseEntity.status(HttpStatus.CREATED).body(reponse);
     }

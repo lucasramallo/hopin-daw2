@@ -4,7 +4,6 @@ import br.edu.ifpb.hopin_daw2.api.controllers.apiDoc.TripControllerApi;
 import br.edu.ifpb.hopin_daw2.api.dto.*;
 import br.edu.ifpb.hopin_daw2.core.domain.trips.Status;
 import br.edu.ifpb.hopin_daw2.core.service.TripService;
-import io.swagger.v3.oas.annotations.Parameter;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

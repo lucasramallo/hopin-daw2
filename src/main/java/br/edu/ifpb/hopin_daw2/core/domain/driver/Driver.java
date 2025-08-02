@@ -22,4 +22,13 @@ public class Driver extends User {
 
     @Column(name = "date_of_birth", nullable = false)
     private LocalDate dateOfBirth;
+
+    @Column
+    private String bank;
+
+    @Column
+    private String bankBranch;
+
+    @Column
+    private String bankAccount;
 }

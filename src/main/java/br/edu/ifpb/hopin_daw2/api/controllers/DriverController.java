@@ -2,6 +2,7 @@ package br.edu.ifpb.hopin_daw2.api.controllers;
 
 import br.edu.ifpb.hopin_daw2.api.controllers.apiDoc.DriverControllerApi;
 import br.edu.ifpb.hopin_daw2.api.dto.*;
+import br.edu.ifpb.hopin_daw2.core.domain.driver.Driver;
 import br.edu.ifpb.hopin_daw2.core.service.DriverService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +27,13 @@ public class DriverController implements DriverControllerApi {
         return ResponseEntity.status(HttpStatus.OK).body(reponse);
     }
 
+    @GetMapping("/getData/{driverEmail}")
+    public ResponseEntity<Driver> getDriverByEmail(@PathVariable String driverEmail) {
+        Driver reponse = service.getDriverByEmail(driverEmail);
+
+        return ResponseEntity.status(HttpStatus.OK).body(reponse);
+    }
+
     @GetMapping("/getTripsHistory")
     @PreAuthorize("hasAnyRole('DRIVER')")
     public ResponseEntity<Page<TripResponseDTO>> getTripsHistory(
@@ -35,6 +43,16 @@ public class DriverController implements DriverControllerApi {
         Page<TripResponseDTO> trips = service.getTripsHistory(page, size);
 
         return ResponseEntity.status(HttpStatus.OK).body(trips);
+    }
+
+    @PreAuthorize("hasAnyRole('DRIVER')")
+    @GetMapping("/getTripsRequests/{driverd}")
+    public ResponseEntity<Page<TripResponseDTO>> getTripsRequests(@PathVariable UUID driverd) {
+        int page = 0;
+        int size = 10;
+        Page<TripResponseDTO> response = service.getTripsRequests(driverd, page, size);
+
+        return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
     @GetMapping("/cab/{driverId}")
