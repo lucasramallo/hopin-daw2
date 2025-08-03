@@ -57,7 +57,6 @@ public class TripController implements TripControllerApi {
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
-    @PreAuthorize("hasAnyRole('DRIVER')")
     @PatchMapping("/{tripId}/complete")
     public ResponseEntity<TripResponseDTO> completeTrip(@PathVariable UUID tripId) {
         TripResponseDTO response = service.editTripStatus(tripId, Status.COMPLETED);

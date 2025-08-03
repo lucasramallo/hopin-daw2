@@ -12,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.UUID;
 
 @RestController
@@ -76,5 +77,12 @@ public class DriverController implements DriverControllerApi {
         service.deleteDriver(driverId);
 
         return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping("/drivers")
+    public ResponseEntity<List<Driver>> getAll() {
+        List<Driver> drivers = service.getAll();
+
+        return ResponseEntity.ok(drivers);
     }
 }

@@ -41,11 +41,6 @@ public class RatingService {
 
     public RatingResponseDTO save(RatingRequestDTO requestDTO) {
 
-        Optional<Driver> driverFound = driverRepository.findById(requestDTO.driverId());
-        if(driverFound.isEmpty()) {
-            throw new DriverNotFoundException();
-        }
-
         String loggedUser = (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
         Optional<Customer> customerFound = customerRepository.findByEmail(loggedUser);
@@ -60,7 +55,7 @@ public class RatingService {
 
         Rating rating = new Rating();
         rating.setId(UUID.randomUUID());
-        rating.setDriver(driverFound.get());
+        rating.setDriver(tripFound.get().getDriver());
         rating.setCustomer(customerFound.get());
         rating.setTrip(tripFound.get());
         rating.setRating(requestDTO.rating());
@@ -103,5 +98,9 @@ public class RatingService {
         Optional<Rating> rating = ratingRepository.findByTripId(tripId);
 
         rating.ifPresent(value -> ratingRepository.delete(value));
+    }
+
+    public Optional<Rating> getRatingByTripId(UUID tripId) {
+        return ratingRepository.findByTripId(tripId);
     }
 }

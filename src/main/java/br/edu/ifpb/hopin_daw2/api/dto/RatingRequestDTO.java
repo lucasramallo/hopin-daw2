@@ -8,8 +8,6 @@ import java.util.UUID;
 
 public record RatingRequestDTO(
         @NotNull
-        UUID driverId,
-        @NotNull
         UUID tripId,
         @Min(0)
         @Max(5)

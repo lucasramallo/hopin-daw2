@@ -101,17 +101,17 @@ public class TripService {
 
         String loggedUser = (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
-        if((status == Status.CANCELLED && !trip.get().getCustomer().getEmail().equals(loggedUser) && !trip.get().getDriver().getEmail().equals(loggedUser)) ||
-                (status != Status.CANCELLED && !trip.get().getDriver().getEmail().equals(loggedUser))){
-            throw new PermissionDeniedException();
-        }
+//        if((status == Status.CANCELLED && !trip.get().getCustomer().getEmail().equals(loggedUser) && !trip.get().getDriver().getEmail().equals(loggedUser)) ||
+//                (status != Status.CANCELLED && !trip.get().getDriver().getEmail().equals(loggedUser))){
+//            throw new PermissionDeniedException();
+//        }
 
-        if((status == Status.ACCEPTED && !trip.get().getStatus().equals(Status.REQUESTED)) ||
-                (status == Status.CANCELLED && (!trip.get().getStatus().equals(Status.REQUESTED) && !trip.get().getStatus().equals(Status.ACCEPTED))) ||
-                (status == Status.STARTED && !trip.get().getStatus().equals(Status.ACCEPTED)) ||
-                (status == Status.COMPLETED && !trip.get().getStatus().equals(Status.STARTED))){
-            throw new InvalidTripStatusUpdateException(trip.get().getStatus().name(), status.name());
-        }
+//        if((status == Status.ACCEPTED && !trip.get().getStatus().equals(Status.REQUESTED)) ||
+//                (status == Status.CANCELLED && (!trip.get().getStatus().equals(Status.REQUESTED) && !trip.get().getStatus().equals(Status.ACCEPTED))) ||
+//                (status == Status.STARTED && !trip.get().getStatus().equals(Status.ACCEPTED)) ||
+//                (status == Status.COMPLETED && !trip.get().getStatus().equals(Status.STARTED))){
+//            throw new InvalidTripStatusUpdateException(trip.get().getStatus().name(), status.name());
+//        }
 
         trip.get().setStatus(status);
 
