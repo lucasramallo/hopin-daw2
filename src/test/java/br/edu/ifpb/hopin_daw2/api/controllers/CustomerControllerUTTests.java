@@ -107,7 +107,6 @@ public class CustomerControllerUTTests {
 
     @Test
     void deveRetornarClientePorEmailComSucesso() throws Exception {
-        // Arrange
         String email = "pedro.oliveira@example.com";
         CustomerResponseDTO response = new CustomerResponseDTO(
                 UUID.randomUUID(),
@@ -240,7 +239,6 @@ public class CustomerControllerUTTests {
 
     @Test
     void deveDeletarClienteComSucesso() throws Exception {
-        // Arrange
         UUID customerId = UUID.fromString("880e8400-e29b-41d4-a716-446655440000");
 
         doNothing().when(customerService).deleteCustomer(customerId);
@@ -265,7 +263,6 @@ public class CustomerControllerUTTests {
 
     @Test
     void deveRetornarClienteComIdEspecifico() throws Exception {
-        // Arrange
         UUID customerId = UUID.fromString("111e8400-e29b-41d4-a716-446655440000");
         CustomerResponseDTO response = new CustomerResponseDTO(
                 customerId,
