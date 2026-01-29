@@ -48,23 +48,6 @@ public interface CustomerControllerApi {
     ResponseEntity<CustomerResponseDTO> getCustomerByEmail(@Parameter(description = "E-mail do cliente")
                                                            String email);
 
-    @Operation(summary = "Obter histórico de viagens de um cliente",
-            description = "Recupera o histórico de viagens de um cliente com paginação.",
-            tags = { "customer" })
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "200",
-                    description = "Histórico de viagens encontrado com sucesso.",
-                    content = @Content(mediaType = "application/json",
-                            schema = @Schema(implementation = TripResponseDTO.class))),
-            @ApiResponse(responseCode = "404",
-                    description = "Customer not found!",
-                    content = @Content(mediaType = "application/json")),
-    })
-    ResponseEntity<Page<TripResponseDTO>> getTripsHistory(@Parameter(description = "Número da página")
-                                                          int page,
-                                                          @Parameter(description = "Número de itens por página")
-                                                          int size);
-
     @Operation(summary = "Editar dados de um cliente",
             description = "Altera as informações de um cliente.",
             tags = { "customer" })

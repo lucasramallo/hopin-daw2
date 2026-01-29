@@ -58,8 +58,8 @@ public class AuthController implements AuthControllerApi {
     }
 
     @PostMapping("/driver/register")
-    public ResponseEntity<Driver> createDriver(@RequestBody @Valid CreateDriverRequestDTO request) {
-        Driver reponse = driverService.createDriver(request);
+    public ResponseEntity<DriverResponseDTO> createDriver(@RequestBody @Valid CreateDriverRequestDTO request) {
+        DriverResponseDTO reponse = driverService.createDriver(request);
 
         return ResponseEntity.status(HttpStatus.CREATED).body(reponse);
     }

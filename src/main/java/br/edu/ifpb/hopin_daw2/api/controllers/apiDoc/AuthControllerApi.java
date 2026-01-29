@@ -52,7 +52,7 @@ public interface AuthControllerApi {
                     content = @Content(mediaType = "application/json",
                             schema = @Schema(implementation = ProblemDetail.class))),
     })
-    ResponseEntity<Driver> createDriver(@Parameter(description = "Dados para criação do motorista")
+    ResponseEntity<DriverResponseDTO> createDriver(@Parameter(description = "Dados para criação do motorista")
                                                    CreateDriverRequestDTO request);
 
     @Operation(summary = "Registrar um cliente",

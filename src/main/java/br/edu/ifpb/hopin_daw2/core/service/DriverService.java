@@ -44,7 +44,7 @@ public class DriverService {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
-    public Driver createDriver(CreateDriverRequestDTO requestDTO) {
+    public DriverResponseDTO createDriver(CreateDriverRequestDTO requestDTO) {
         DriverValidations.validateName(requestDTO.name());
         UserValidations.validateEmail(requestDTO.email());
         DriverValidations.validateAge(requestDTO.dateOfBirth());
@@ -66,7 +66,16 @@ public class DriverService {
 
         repository.save(driver);
 
-        return driver;
+        DriverResponseDTO responseDTO = new DriverResponseDTO(
+                driver.getId(),
+                driver.getName(),
+                driver.getEmail(),
+                driver.getDateOfBirth(),
+                driver.getCab(),
+                driver.getCreatedAt()
+        );
+
+        return responseDTO;
     }
 
     public DriverResponseDTO getDriverById(UUID id) {
