@@ -1,6 +1,7 @@
 package br.edu.ifpb.hopin_daw2.core.domain.user;
 
 import br.edu.ifpb.hopin_daw2.core.domain.role.Role;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -44,6 +45,7 @@ public abstract class User implements UserDetails {
     }
 
     @Override
+    @JsonIgnore
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return List.of(() -> "ROLE_" + role.name());
     }
